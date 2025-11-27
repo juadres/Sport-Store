@@ -520,3 +520,370 @@ html, body {
     background-color: transparent;
   }
 }
+
+/* Confirmación de Venta - Clases específicas */
+.confirmation-card {
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border-light) !important;
+    border-radius: 20px !important;
+    box-shadow: var(--shadow-card) !important;
+}
+
+.confirmation-title {
+    color: var(--accent-green) !important;
+    font-weight: 800 !important;
+    font-family: 'Exo 2', sans-serif !important;
+}
+
+.confirmation-message {
+    color: var(--text-primary) !important;
+    font-size: 1.25rem !important;
+    line-height: 1.6 !important;
+}
+
+.confirmation-alert {
+    background: rgba(0, 200, 83, 0.1) !important;
+    border: 1px solid var(--accent-green) !important;
+    border-radius: 12px !important;
+    padding: 1rem 1.5rem !important;
+    color: var(--text-primary) !important;
+}
+
+.confirmation-summary {
+    background: var(--bg-dark) !important;
+    border: 1px solid var(--border-light) !important;
+    border-radius: 16px !important;
+}
+
+.summary-title {
+    color: var(--text-primary) !important;
+    font-weight: 600 !important;
+}
+
+.summary-label {
+    color: var(--text-secondary) !important;
+    margin-bottom: 0.25rem !important;
+    font-size: 0.9rem !important;
+}
+
+.summary-value {
+    color: var(--accent-yellow) !important;
+    font-weight: 700 !important;
+    font-size: 1.1rem !important;
+    margin-bottom: 0 !important;
+}
+
+.summary-text {
+    color: var(--text-primary) !important;
+    margin-bottom: 0 !important;
+}
+
+.summary-total {
+    border-top: 1px solid var(--border-light) !important;
+    padding-top: 1rem !important;
+    margin-top: 1rem !important;
+}
+
+.total-amount {
+    color: var(--accent-yellow) !important;
+    font-weight: 800 !important;
+    margin-bottom: 0 !important;
+}
+
+.confirmation-footer .footer-text {
+    color: var(--text-secondary) !important;
+    margin-bottom: 0 !important;
+}
+
+.success-badge {
+    background: var(--gradient-success) !important;
+    width: 100px !important;
+    height: 100px !important;
+    border-radius: 50% !important;
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+}
+
+/* Botones específicos para confirmación */
+.confirmation-actions .btn-primary {
+    background: var(--gradient-primary) !important;
+    border: none !important;
+    font-weight: 600 !important;
+}
+
+.confirmation-actions .btn-outline-danger {
+    border: 2px solid var(--accent-red) !important;
+    color: var(--accent-red) !important;
+    font-weight: 600 !important;
+}
+
+.confirmation-actions .btn-outline-danger:hover {
+    background: var(--gradient-danger) !important;
+    color: white !important;
+}
+
+.confirmation-history .btn-outline-light {
+    border: 1px solid var(--border-light) !important;
+    color: var(--text-secondary) !important;
+}
+
+.confirmation-history .btn-outline-light:hover {
+    border-color: var(--primary-orange) !important;
+    color: var(--text-primary) !important;
+    background: rgba(255, 107, 53, 0.1) !important;
+}
+
+/* Dashboard Admin - Correcciones */
+.stats-card {
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border-light) !important;
+    border-radius: 16px !important;
+    transition: all 0.3s ease !important;
+}
+
+.stats-card:hover {
+    transform: translateY(-5px) !important;
+    box-shadow: var(--shadow-glow) !important;
+    border-color: var(--primary-orange) !important;
+}
+
+.stats-card .card-title {
+    font-size: 0.85rem !important;
+    font-weight: 500 !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.stats-card .stat-number {
+    font-family: 'Exo 2', sans-serif !important;
+    font-size: 2rem !important;
+    font-weight: 800 !important;
+    background: var(--gradient-primary) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    line-height: 1 !important;
+    margin-bottom: 0 !important;
+}
+
+.stats-card .stat-number.text-warning {
+    background: var(--gradient-warning) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+}
+
+.stats-card .stat-number.text-danger {
+    background: var(--gradient-danger) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+}
+
+.stats-card .stat-number.text-success {
+    background: var(--gradient-success) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+}
+
+.stats-card .stat-number.text-info {
+    background: var(--gradient-blue) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+}
+
+.stats-card .stat-number.text-secondary {
+    background: var(--bg-light) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+}
+
+.stats-icon {
+    background: rgba(255, 107, 53, 0.1) !important;
+    width: 50px !important;
+    height: 50px !important;
+    border-radius: 12px !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    color: var(--primary-orange) !important;
+    font-size: 1.25rem !important;
+}
+
+/* Confirmación de Venta - Versión Simplificada */
+.success-card {
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border-light) !important;
+    border-radius: 20px !important;
+    box-shadow: var(--shadow-card) !important;
+}
+
+.success-icon {
+    font-size: 4rem !important;
+    color: var(--accent-green) !important;
+    margin-bottom: 1.5rem !important;
+}
+
+.success-title {
+    color: var(--accent-green) !important;
+    font-weight: 800 !important;
+    font-family: 'Exo 2', sans-serif !important;
+    font-size: 2.5rem !important;
+}
+
+.success-message {
+    color: var(--text-primary) !important;
+    font-size: 1.1rem !important;
+    line-height: 1.6 !important;
+}
+
+.order-info {
+    background: var(--bg-dark) !important;
+    border-radius: 12px !important;
+    padding: 1.5rem !important;
+    border: 1px solid var(--border-light) !important;
+}
+
+.info-item {
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    margin-bottom: 0.75rem !important;
+}
+
+.info-item:last-child {
+    margin-bottom: 0 !important;
+    border-top: 1px solid var(--border-light) !important;
+    padding-top: 0.75rem !important;
+    margin-top: 0.75rem !important;
+}
+
+.info-label {
+    color: var(--text-secondary) !important;
+    font-weight: 500 !important;
+}
+
+.info-value {
+    color: var(--text-primary) !important;
+    font-weight: 600 !important;
+}
+
+.info-price {
+    color: var(--accent-yellow) !important;
+    font-weight: 800 !important;
+    font-size: 1.25rem !important;
+}
+
+.action-buttons .btn-primary {
+    background: var(--gradient-primary) !important;
+    border: none !important;
+    font-weight: 600 !important;
+    padding: 0.75rem 1.5rem !important;
+}
+
+.action-buttons .btn-outline-secondary {
+    border: 2px solid var(--border-light) !important;
+    color: var(--text-secondary) !important;
+    font-weight: 500 !important;
+}
+
+.action-buttons .btn-outline-secondary:hover {
+    border-color: var(--primary-orange) !important;
+    color: var(--text-primary) !important;
+    background: rgba(255, 107, 53, 0.1) !important;
+}
+
+/* Login Mejorado */
+.auth-card {
+    background: var(--bg-card) !important;
+    border: 1px solid var(--border-light) !important;
+    border-radius: 20px !important;
+    box-shadow: var(--shadow-card) !important;
+}
+
+.auth-icon {
+    font-size: 3rem !important;
+    color: var(--primary-orange) !important;
+    margin-bottom: 1.5rem !important;
+}
+
+.auth-title {
+    color: var(--text-primary) !important;
+    font-weight: 800 !important;
+    font-family: 'Exo 2', sans-serif !important;
+    font-size: 2rem !important;
+    margin-bottom: 0.5rem !important;
+}
+
+.auth-subtitle {
+    color: var(--text-secondary) !important;
+    font-size: 1.1rem !important;
+    margin-bottom: 0 !important;
+}
+
+.auth-alert {
+    border-radius: 12px !important;
+    border: none !important;
+    padding: 1rem 1.25rem !important;
+    margin-bottom: 2rem !important;
+}
+
+.auth-label {
+    color: var(--text-primary) !important;
+    font-weight: 600 !important;
+    margin-bottom: 0.5rem !important;
+    font-size: 0.95rem !important;
+}
+
+.auth-input .input-group-text {
+    background: var(--bg-dark) !important;
+    border: 1px solid var(--border-light) !important;
+    border-right: none !important;
+    color: var(--text-secondary) !important;
+}
+
+.auth-input .form-control {
+    background: var(--bg-dark) !important;
+    border: 1px solid var(--border-light) !important;
+    border-left: none !important;
+    color: var(--text-primary) !important;
+    padding: 0.75rem 1rem !important;
+}
+
+.auth-input .form-control:focus {
+    border-color: var(--primary-orange) !important;
+    box-shadow: 0 0 0 0.2rem rgba(255, 107, 53, 0.25) !important;
+}
+
+.auth-input .btn-outline-secondary {
+    background: var(--bg-dark) !important;
+    border: 1px solid var(--border-light) !important;
+    border-left: none !important;
+    color: var(--text-secondary) !important;
+}
+
+.auth-help {
+    font-size: 0.85rem !important;
+}
+
+.auth-submit {
+    background: var(--gradient-primary) !important;
+    border: none !important;
+    padding: 0.75rem 1.5rem !important;
+    font-weight: 600 !important;
+    border-radius: 12px !important;
+}
+
+.auth-footer {
+    border-color: var(--border-light) !important;
+}
+
+.auth-footer .btn-outline-primary {
+    border: 2px solid var(--primary-blue) !important;
+    color: var(--primary-blue) !important;
+    font-weight: 500 !important;
+    border-radius: 10px !important;
+}
+
+.auth-footer .btn-outline-primary:hover {
+    background: var(--gradient-blue) !important;
+    color: white !important;
+}

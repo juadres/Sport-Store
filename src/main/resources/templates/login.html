@@ -8,54 +8,43 @@
     <link rel="stylesheet" th:href="@{/css/cyberpunk.css}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body>
+<body class="bg-dark">
     <!-- Header Unificado -->
     <div th:replace="fragments/header :: header"></div>
 
-    <div class="container mt-5">
-        <div class="row justify-content-center min-vh-100 align-items-center">
-            <div class="col-md-6 col-lg-4">
-                <div class="card">
-                    <div class="card-body p-5">
-
-                        <!-- Botón Volver al Home -->
-                        <div class="text-start mb-4">
-                            <a th:href="@{/}" class="btn btn-outline-primary btn-sm">
-                                <i class="fas fa-arrow-left me-1"></i> Volver al Home
-                            </a>
-                        </div>
-
-                        <div class="text-center mb-4">
-                            <div class="bg-primary rounded-circle d-inline-flex align-items-center justify-content-center mb-3" 
-                                 style="width: 80px; height: 80px;">
-                                <i class="fas fa-dumbbell fa-2x text-white"></i>
+    <div class="container my-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6 col-lg-5">
+                <div class="auth-card">
+                    <div class="card-body p-4 p-md-5">
+                        
+                        <!-- Encabezado con más espacio -->
+                        <div class="text-center mb-5">
+                            <div class="auth-icon mb-4">
+                                <i class="fas fa-running"></i>
                             </div>
-                            <h2 class="fw-bold">SportStore 2025</h2>
-                            <p class="text-muted">Inicia sesión en tu cuenta</p>
+                            <h1 class="auth-title mb-2">Bienvenido</h1>
+                            <p class="auth-subtitle">Ingresa a tu cuenta SportStore</p>
                         </div>
 
-                        <!-- Mensajes -->
-                        <div th:if="${param.error}" class="alert alert-danger">
-                            <i class="fas fa-exclamation-triangle"></i> 
-                            Error en el email o contraseña.
+                        <!-- Mensajes con mejor espaciado -->
+                        <div th:if="${param.error}" class="alert alert-danger auth-alert">
+                            <i class="fas fa-exclamation-triangle me-2"></i>
+                            Email o contraseña incorrectos
                         </div>
 
-                        <div th:if="${param.logout}" class="alert alert-success">
-                            <i class="fas fa-check-circle"></i> 
-                            Has cerrado sesión con éxito.
+                        <div th:if="${param.logout}" class="alert alert-success auth-alert">
+                            <i class="fas fa-check-circle me-2"></i>
+                            Sesión cerrada correctamente
                         </div>
 
-                        <div th:if="${success}" class="alert alert-success">
-                            <i class="fas fa-check-circle"></i> 
-                            <span th:text="${success}"></span>
-                        </div>
-
-                        <!-- Formulario -->
-                        <form th:action="@{/login}" method="post">
+                        <!-- Formulario con más espacio -->
+                        <form th:action="@{/login}" method="post" class="auth-form">
                             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                            <div class="mb-3">
-                                <label for="username" class="form-label">Email</label>
-                                <div class="input-group">
+                            
+                            <div class="mb-4">
+                                <label for="username" class="form-label auth-label">Email</label>
+                                <div class="input-group auth-input">
                                     <span class="input-group-text">
                                         <i class="fas fa-envelope"></i>
                                     </span>
@@ -64,9 +53,9 @@
                                 </div>
                             </div>
 
-                            <div class="mb-3">
-                                <label for="password" class="form-label">Contraseña</label>
-                                <div class="input-group">
+                            <div class="mb-4">
+                                <label for="password" class="form-label auth-label">Contraseña</label>
+                                <div class="input-group auth-input">
                                     <span class="input-group-text">
                                         <i class="fas fa-lock"></i>
                                     </span>
@@ -76,22 +65,26 @@
                                         <i class="fas fa-eye"></i>
                                     </button>
                                 </div>
-                                <div class="form-text text-muted mt-2">
-                                    <small>¿No recuerdas tu contraseña? Contacta con el administrador.</small>
+                                <div class="auth-help mt-2">
+                                    <small class="text-muted">
+                                        <i class="fas fa-info-circle me-1"></i>
+                                        ¿Problemas para ingresar? Contacta al administrador.
+                                    </small>
                                 </div>
                             </div>
 
-                            <div class="d-grid">
-                                <button type="submit" class="btn btn-primary btn-lg">
+                            <div class="d-grid mb-4">
+                                <button type="submit" class="btn btn-primary btn-lg auth-submit">
                                     <i class="fas fa-sign-in-alt me-2"></i> Iniciar Sesión
                                 </button>
                             </div>
                         </form>
 
-                        <div class="text-center mt-4">
-                            <p class="mb-0">¿No tienes cuenta?</p>
-                            <a th:href="@{/register}" class="btn btn-sm btn-outline-primary mt-2">
-                                <i class="fas fa-user-plus me-1"></i> Regístrate aquí
+                        <!-- Enlace de registro con mejor separación -->
+                        <div class="auth-footer text-center pt-4 border-top">
+                            <p class="mb-3">¿No tienes cuenta aún?</p>
+                            <a th:href="@{/register}" class="btn btn-outline-primary">
+                                <i class="fas fa-user-plus me-2"></i> Crear Cuenta
                             </a>
                         </div>
                     </div>

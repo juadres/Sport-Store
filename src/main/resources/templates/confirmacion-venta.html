@@ -7,85 +7,57 @@
     <link rel="stylesheet" th:href="@{/css/cyberpunk.css}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body class="bg-dark text-white">
+<body class="bg-dark">
     <!-- Header Unificado -->
     <div th:replace="fragments/header :: header"></div>
 
-    <div class="container mt-5">
+    <div class="container my-5">
         <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card text-center border-0 shadow-lg">
-                    <div class="card-body p-5">
+            <div class="col-md-8 col-lg-6">
+                <!-- Card principal simplificada -->
+                <div class="card success-card">
+                    <div class="card-body text-center p-5">
+                        
                         <!-- Icono de éxito -->
                         <div class="success-icon mb-4">
-                            <div class="bg-success rounded-circle d-inline-flex align-items-center justify-content-center" 
-                                 style="width: 100px; height: 100px;">
-                                <i class="fas fa-check fa-3x text-white"></i>
-                            </div>
+                            <i class="fas fa-check-circle"></i>
                         </div>
                         
-                        <!-- Título principal -->
-                        <h2 class="text-success fw-bold mb-3">¡Compra Exitosa!</h2>
-                        
-                        <!-- Mensaje principal -->
-                        <p class="lead mb-4">
-                            Tu pedido ha sido procesado correctamente. Te enviaremos una confirmación por email.
+                        <!-- Título y mensaje -->
+                        <h2 class="success-title mb-3">¡Compra Exitosa!</h2>
+                        <p class="success-message mb-4">
+                            Tu pedido ha sido procesado correctamente. 
+                            <strong>¡Te esperamos pronto!</strong>
                         </p>
 
-                        <!-- Mensaje de agradecimiento -->
-                        <div class="alert alert-success border-0 mb-4">
-                            <i class="fas fa-heart me-2"></i>
-                            <strong>¡Gracias por tu compra!</strong> Tu equipamiento deportivo está siendo preparado.
-                        </div>
-
-                        <!-- Información básica (solo si está disponible) -->
-                        <div th:if="${venta != null}" class="card bg-dark border-light mb-4">
-                            <div class="card-body">
-                                <h5 class="mb-3"><i class="fas fa-receipt me-2"></i>Resumen de tu compra</h5>
-                                <div class="row text-start">
-                                    <div class="col-md-6">
-                                        <p class="mb-2"><strong>N° de Orden:</strong></p>
-                                        <p class="text-warning fw-bold" th:text="${venta.numeroFactura}">-</p>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <p class="mb-2"><strong>Fecha:</strong></p>
-                                        <p th:text="${#temporals.format(venta.fechaVenta, 'dd/MM/yyyy HH:mm')}">-</p>
-                                    </div>
-                                </div>
-                                <div class="mt-3 pt-3 border-top">
-                                    <p class="mb-2"><strong>Total:</strong></p>
-                                    <h4 class="text-warning fw-bold" 
-                                        th:text="'$' + ${#numbers.formatDecimal(venta.total, 1, 2, 'COMMA')}">-</h4>
-                                </div>
+                        <!-- Información básica si está disponible -->
+                        <div th:if="${venta != null}" class="order-info mb-4">
+                            <div class="info-item">
+                                <span class="info-label">N° de Orden:</span>
+                                <span class="info-value" th:text="${venta.numeroFactura}"></span>
                             </div>
-                        </div>
-
-                        <!-- Mensaje de despedida -->
-                        <div class="mb-4">
-                            <p class="text-muted">
-                                <i class="fas fa-clock me-2"></i>
-                                Recibirás tu pedido en 2-3 días hábiles. 
-                                <strong>¡Te esperamos pronto!</strong>
-                            </p>
+                            <div class="info-item">
+                                <span class="info-label">Total:</span>
+                                <span class="info-price" th:text="'$' + ${#numbers.formatDecimal(venta.total, 1, 2, 'COMMA')}"></span>
+                            </div>
                         </div>
 
                         <!-- Botones de acción -->
-                        <div class="d-grid gap-3 d-md-flex justify-content-center">
-                            <a th:href="@{/tienda}" class="btn btn-primary btn-lg px-4">
-                                <i class="fas fa-shopping-bag me-2"></i> Seguir Comprando
-                            </a>
-                            
-                            <a th:if="${venta != null}" th:href="@{/descargar-factura/{id}(id=${venta.id})}" 
-                               class="btn btn-outline-danger btn-lg px-4">
-                                <i class="fas fa-file-pdf me-2"></i> Descargar Factura
-                            </a>
-                        </div>
-
-                        <!-- Enlace al historial -->
-                        <div class="mt-4 pt-3 border-top">
-                            <a th:href="@{/mis-compras}" class="btn btn-outline-light btn-sm">
-                                <i class="fas fa-history me-2"></i> Ver mi historial de compras
-                            </a>
+                        <div class="action-buttons">
+                            <div class="d-grid gap-2">
+                                <a th:href="@{/tienda}" class="btn btn-primary btn-lg">
+                                    <i class="fas fa-shopping-bag me-2"></i> Seguir Comprando
+                                </a>
+                                
+                                <a th:if="${venta != null}" th:href="@{/descargar-factura/{id}(id=${venta.id})}" 
+                                   class="btn btn-outline-secondary">
+                                    <i class="fas fa-file-pdf me-2"></i> Descargar Factura
+                                </a>
+                                
+                                <a th:href="@{/mis-compras}" class="btn btn-outline-light btn-sm mt-2">
+                                    <i class="fas fa-history me-2"></i> Ver Historial
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
