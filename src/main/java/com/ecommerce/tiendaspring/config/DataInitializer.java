@@ -39,7 +39,6 @@ public class DataInitializer implements CommandLineRunner {
     }
 
     private void inicializarRolesYUsuarios() {
-        // Crear roles si no existen
         if (rolRepository.count() == 0) {
             Rol rolAdmin = new Rol("ROLE_ADMIN");
             Rol rolUser = new Rol("ROLE_USER");
@@ -48,7 +47,6 @@ public class DataInitializer implements CommandLineRunner {
             System.out.println("Roles creados: ROLE_ADMIN, ROLE_USER");
         }
 
-        // Crear usuario admin si no existe
         if (usuarioRepository.findByEmail("admin@tienda.com").isEmpty()) {
             Usuario admin = new Usuario();
             admin.setNombre("Administrador");
@@ -63,7 +61,6 @@ public class DataInitializer implements CommandLineRunner {
             System.out.println("Usuario admin creado: admin@tienda.com / admin123");
         }
 
-        // Crear usuario normal si no existe
         if (usuarioRepository.findByEmail("user@tienda.com").isEmpty()) {
             Usuario user = new Usuario();
             user.setNombre("Usuario Normal");
@@ -78,178 +75,174 @@ public class DataInitializer implements CommandLineRunner {
         }
     }
 
-    // productos
     private void inicializarProductos() {
         if (productoRepository.count() == 0) {
 
-            // MOUSES
+            // UNIFORMES FÚTBOL
             productoRepository.save(new Producto(
-                "Mouse Gamer RGB 7200 DPI",
-                "Sensor óptico de alta precisión, 7 botones programables y luces RGB dinámicas.",
-                new BigDecimal("39990"),
-                8,
-                "mouses",
-                "/images/mouse1.jpg",
+                "Camiseta Real Madrid 2024 Local",
+                "Camiseta oficial temporada 2024, tejido transpirable y tecnología dry-fit.",
+                new BigDecimal("149990"),
+                15,
+                "uniformes",
+                "/images/uniforme1.jpeg",
                 1
             ));
 
             productoRepository.save(new Producto(
-                "Mouse Inalámbrico Silent Click",
-                "Diseño ergonómico, conexión 2.4 GHz y clic silencioso para oficina o estudio.",
-                new BigDecimal("24990"),
+                "Jersey Barcelona Edición Especial",
+                "Diseño exclusivo con detalles en oro, 100% poliéster reciclado.",
+                new BigDecimal("159990"),
                 12,
-                "mouses",
-                "/images/mouse2.jpg",
+                "uniformes",
+                "/images/uniforme2.jpg",
                 2
             ));
 
             productoRepository.save(new Producto(
-                "Mouse Vertical Ergonómico",
-                "Reduce fatiga en la muñeca, apto para uso prolongado y DPI ajustable.",
-                new BigDecimal("49990"),
-                5,
-                "mouses",
-                "/images/mouse3.jpg",
+                "Uniforme Selección Colombia",
+                "Camiseta oficial de la selección, diseño tricolor y escudo bordado.",
+                new BigDecimal("139990"),
+                8,
+                "uniformes",
+                "/images/uniforme3.jpeg",
                 3
             ));
 
             productoRepository.save(new Producto(
-                "Mouse Básico USB Económico",
-                "Ideal para tareas básicas, diseño liviano y compatible con cualquier PC.",
-                new BigDecimal("15990"),
-                20,
-                "mouses",
-                "/images/mouse4.jpg",
+                "Camiseta Bayern Munich Visitante",
+                "Color rosa neón, tecnología de ventilación avanzada.",
+                new BigDecimal("144990"),
+                10,
+                "uniformes",
+                "/images/uniforme4.jpeg",
                 4
             ));
 
-
-            // TECLADOS
+            // SUDADERAS
             productoRepository.save(new Producto(
-                "Teclado Mecánico Blue Switch",
-                "Interruptores azules táctiles, retroiluminación RGB y construcción metálica.",
-                new BigDecimal("119900"),
-                6,
-                "teclados",
-                "/images/teclado1.jpg",
+                "Sudadera Nike Club Fleece",
+                "Tejido fleece suave, capucha ajustable y bolsillo canguro.",
+                new BigDecimal("89990"),
+                18,
+                "sudaderas",
+                "/images/sudadera1.jpeg",
                 5
             ));
 
             productoRepository.save(new Producto(
-                "Teclado de Membrana Retroiluminado",
-                "Silencioso, luces multicolor fijas y diseño resistente al agua.",
-                new BigDecimal("59900"),
-                10,
-                "teclados",
-                "/images/teclado2.jpg",
+                "Hoodie Adidas Originals",
+                "Diseño clásico, corte regular y logo Adidas bordado.",
+                new BigDecimal("79990"),
+                20,
+                "sudaderas",
+                "/images/sudadera2.jpeg",
                 6
             ));
 
             productoRepository.save(new Producto(
-                "Teclado Inalámbrico Compacto",
-                "Conexión Bluetooth, carga por USB-C y tamaño reducido para mayor movilidad.",
-                new BigDecimal("69900"),
-                7,
-                "teclados",
-                "/images/teclado3.jpg",
+                "Buzo Under Armour Sportstyle",
+                "Material técnico, ideal para entrenamiento y uso casual.",
+                new BigDecimal("94990"),
+                14,
+                "sudaderas",
+                "/images/sudadera3.jpeg",
                 7
             ));
 
             productoRepository.save(new Producto(
-                "Teclado Numérico USB",
-                "Ideal para portátiles y contabilidad, plug & play.",
-                new BigDecimal("29900"),
-                15,
-                "teclados",
-                "/images/teclado4.jpg",
+                "Sudadera Puma Training",
+                "Corte moderno, tela absorbente de humedad.",
+                new BigDecimal("69990"),
+                16,
+                "sudaderas",
+                "/images/sudadera4.jpeg",
                 8
             ));
 
-
-            // ALFOMBRILLAS
+            // CALZADO DEPORTIVO
             productoRepository.save(new Producto(
-                "Alfombrilla XL Extendida",
-                "Ideal para teclado y mouse, superficie suave y base antideslizante.",
-                new BigDecimal("24900"),
-                14,
-                "alfombrillas",
-                "/images/alfombrilla1.jpg",
+                "Zapatos Nike Air Max 270",
+                "Amortiguación Air Max visible, diseño moderno y cómodo.",
+                new BigDecimal("249990"),
+                9,
+                "calzado",
+                "/images/calzado1.jpeg",
                 9
             ));
 
             productoRepository.save(new Producto(
-                "Mousepad RGB de 10 Modos",
-                "Iluminación LED alrededor, control táctil y superficie microtexturizada.",
-                new BigDecimal("49900"),
-                6,
-                "alfombrillas",
-                "/images/alfombrilla2.jpg",
+                "Tenis Adidas Ultraboost 5.0",
+                "Tecnología Boost, ideal para running y uso diario.",
+                new BigDecimal("299990"),
+                7,
+                "calzado",
+                "/images/calzado2.jpeg",
                 10
             ));
 
             productoRepository.save(new Producto(
-                "Alfombrilla Antideslizante Básica",
-                "Tamaño estándar, ligera y con bordes reforzados para mayor durabilidad.",
-                new BigDecimal("9900"),
-                25,
-                "alfombrillas",
-                "/images/alfombrilla3.jpg",
+                "Botines Nike Mercurial Vapor 15",
+                "Para fútbol profesional, suela FG y diseño aerodinámico.",
+                new BigDecimal("189990"),
+                11,
+                "calzado",
+                "/images/calzado3.jpeg",
                 11
             ));
 
             productoRepository.save(new Producto(
-                "Mousepad Gamer XXL",
-                "Ideal para setups grandes, diseño resistente y superficie waterproof.",
-                new BigDecimal("34900"),
-                9,
-                "alfombrillas",
-                "/images/alfombrilla4.jpg",
+                "Zapatillas New Balance 1080v12",
+                "Amortiguación Fresh Foam, para running de larga distancia.",
+                new BigDecimal("219990"),
+                8,
+                "calzado",
+                "/images/calzado4.jpeg",
                 12
             ));
 
-
-            // AUDÍFONOS
+            // ACCESORIOS DEPORTIVOS
             productoRepository.save(new Producto(
-                "Audífonos Gamer con Micrófono RGB",
-                "Sonido envolvente, micrófono flexible y almohadillas de espuma suave.",
-                new BigDecimal("89900"),
-                7,
-                "audifonos",
-                "/images/audifonos1.jpg",
+                "Balón Fútbol Professional Nike",
+                "Balón oficial tamaño 5, superficie termoadherida.",
+                new BigDecimal("59990"),
+                25,
+                "accesorios",
+                "/images/accesorio1.jpeg",
                 13
             ));
 
             productoRepository.save(new Producto(
-                "Audífonos Inalámbricos Bluetooth",
-                "20 horas de batería, carga USB-C y reducción de ruido pasiva.",
-                new BigDecimal("69900"),
-                11,
-                "audifonos",
-                "/images/audifonos2.jpg",
+                "Guantes Portería Uhlsport",
+                "Goma de látex profesional, máxima adherencia y protección.",
+                new BigDecimal("89990"),
+                13,
+                "accesorios",
+                "/images/accesorio2.jpeg",
                 14
             ));
 
             productoRepository.save(new Producto(
-                "Diadema Económica con Micrófono",
-                "Livianos, cómodos y perfectos para clases virtuales y reuniones.",
-                new BigDecimal("29900"),
-                18,
-                "audifonos",
-                "/images/audifonos3.jpg",
+                "Rodilleras Volleyball Mikasa",
+                "Protección acolchada, ajuste seguro y material transpirable.",
+                new BigDecimal("39990"),
+                22,
+                "accesorios",
+                "/images/accesorio3.jpeg",
                 15
             ));
 
             productoRepository.save(new Producto(
-                "Headset Profesional para Streaming",
-                "Sonido Hi-Fi, micrófono con cancelación activa y diseño premium.",
-                new BigDecimal("149900"),
-                4,
-                "audifonos",
-                "/images/audifonos4.jpg",
+                "Muñequeras Deportivas Nike",
+                "Pack de 3 muñequeras absorbentes, varios colores.",
+                new BigDecimal("24990"),
+                30,
+                "accesorios",
+                "/images/accesorio4.jpeg",
                 16
             ));
 
-            System.out.println("Productos creados exitosamente");
+            System.out.println("Productos deportivos creados exitosamente");
         }
     }
 }

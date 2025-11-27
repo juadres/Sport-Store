@@ -3,61 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TechStore - Tu Tienda de Tecnología</title>
+    <title>SportStore - Tu Tienda Deportiva</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" th:href="@{/css/cyberpunk.css}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-    <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
-        <div class="container">
-            <a class="navbar-brand" th:href="@{/}">
-                <i class="fas fa-laptop-code me-2"></i>TechStore
-            </a>
-            
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav me-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/#features}">Características</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" th:href="@{/#categories}">Categorías</a>
-                    </li>
-                    <!-- Quitamos Nosotros y Contacto -->
-                </ul>
+    <!-- Header -->
+    <header class="header">
+        <nav class="navbar navbar-expand-lg">
+            <div class="container">
+                <a class="navbar-brand" th:href="@{/}">
+                    <i class="fas fa-dumbbell me-2"></i>SportStore
+                </a>
                 
-                <div class="navbar-nav">
-                    <a class="nav-link me-3" th:href="@{/login}">
-                        <i class="fas fa-sign-in-alt me-1"></i>Iniciar Sesión
-                    </a>
-                    <a class="btn btn-outline-primary" th:href="@{/register}">
-                        <i class="fas fa-user-plus me-1"></i>Registrarse
-                    </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/#features}">Beneficios</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" th:href="@{/#categories}">Categorías</a>
+                        </li>
+                    </ul>
+                    
+                    <div class="navbar-nav">
+                        <a class="nav-link me-3" th:href="@{/login}">
+                            <i class="fas fa-sign-in-alt me-1"></i>Iniciar Sesión
+                        </a>
+                        <a class="btn btn-primary" th:href="@{/register}">
+                            <i class="fas fa-user-plus me-1"></i>Registrarse
+                        </a>
+                    </div>
                 </div>
             </div>
-        </div>
-    </nav>
+        </nav>
+    </header>
 
     <!-- Hero Section -->
     <section class="hero-section">
         <div class="container">
             <div class="row justify-content-center text-center">
                 <div class="col-lg-8">
-                    <h1 class="display-4 fw-bold mb-4">
-                        Tecnología de <span class="logo-glow">Alto Rendimiento</span>
+                    <h1 class="hero-title">
+                        Equípate para el <span class="text-gradient">Éxito Deportivo</span>
                     </h1>
-                    <p class="lead mb-5">
-                        Descubre los mejores productos tecnológicos al mejor precio. 
-                        Desde mouses y teclados hasta audífonos y accesorios gaming. 
-                        Calidad garantizada y envío rápido.
+                    <p class="hero-subtitle">
+                        Descubre la mejor selección de equipamiento deportivo. Desde uniformes de fútbol 
+                        hasta calzado de alto rendimiento. Calidad profesional y envío express.
                     </p>
                     
-                    <!-- Quitamos los botones de Comprar Ahora y Ver Catálogo -->
+                    <div class="mt-5">
+                        <a th:href="@{/tienda}" class="btn btn-primary btn-lg me-3">
+                            <i class="fas fa-shopping-bag me-2"></i>Explorar Tienda
+                        </a>
+                        <a th:href="@{/#categories}" class="btn btn-outline-light btn-lg">
+                            <i class="fas fa-list me-2"></i>Ver Categorías
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -67,30 +74,30 @@
     <section id="features" class="py-5">
         <div class="container">
             <div class="text-center mb-5">
-                <h2 class="fw-bold">¿Por qué elegir TechStore?</h2>
-                <p class="text-muted">Ofrecemos la mejor experiencia de compra en tecnología</p>
+                <h2 class="fw-bold">¿Por qué SportStore?</h2>
+                <p class="text-muted">La experiencia de compra deportiva más completa</p>
             </div>
             
             <div class="row g-4">
                 <div class="col-md-4">
-                    <div class="feature-card">
-                        <i class="fas fa-shield-alt feature-icon"></i>
-                        <h4>Garantía Extendida</h4>
-                        <p class="text-muted">Todos nuestros productos incluyen garantía de 12 meses</p>
+                    <div class="card text-center p-4">
+                        <i class="fas fa-award category-icon"></i>
+                        <h4>Calidad Garantizada</h4>
+                        <p class="text-muted">Productos de marcas reconocidas con garantía extendida</p>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="feature-card">
-                        <i class="fas fa-headset feature-icon"></i>
-                        <h4>Soporte 24/7</h4>
-                        <p class="text-muted">Nuestro equipo de soporte está disponible para ayudarte</p>
+                    <div class="card text-center p-4">
+                        <i class="fas fa-shipping-fast category-icon"></i>
+                        <h4>Envío Express</h4>
+                        <p class="text-muted">Recibe tus productos en 24-48 horas en toda la ciudad</p>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="feature-card">
-                        <i class="fas fa-undo feature-icon"></i>
-                        <h4>Devoluciones Fáciles</h4>
-                        <p class="text-muted">30 días para devoluciones sin complicaciones</p>
+                    <div class="card text-center p-4">
+                        <i class="fas fa-headset category-icon"></i>
+                        <h4>Soporte Expertos</h4>
+                        <p class="text-muted">Asesoramiento profesional para elegir tu equipamiento</p>
                     </div>
                 </div>
             </div>
@@ -98,40 +105,48 @@
     </section>
 
     <!-- Categories Section -->
-    <section id="categories" class="category-section">
+    <section id="categories" class="py-5 bg-darker">
         <div class="container">
             <div class="text-center mb-5">
-                <h2 class="fw-bold">Explora Nuestras Categorías</h2>
-                <p class="text-muted">Encuentra exactamente lo que necesitas</p>
+                <h2 class="fw-bold">Nuestras Categorías</h2>
+                <p class="text-muted">Todo lo que necesitas para tu deporte favorito</p>
             </div>
             
             <div class="row g-4">
                 <div class="col-md-3">
-                    <a th:href="@{/tienda(categoria='mouses')}" class="category-card">
-                        <i class="fas fa-mouse feature-icon"></i>
-                        <h4>Mouses</h4>
-                        <p class="text-muted">Gaming, ergonómicos e inalámbricos</p>
+                    <a th:href="@{/tienda(categoria='uniformes')}" class="category-card">
+                        <div class="card text-center p-4">
+                            <i class="fas fa-tshirt category-icon"></i>
+                            <h4>Uniformes</h4>
+                            <p class="text-muted">Camisetas oficiales y equipamiento de fútbol</p>
+                        </div>
                     </a>
                 </div>
                 <div class="col-md-3">
-                    <a th:href="@{/tienda(categoria='teclados')}" class="category-card">
-                        <i class="fas fa-keyboard feature-icon"></i>
-                        <h4>Teclados</h4>
-                        <p class="text-muted">Mecánicos, membrana y compactos</p>
+                    <a th:href="@{/tienda(categoria='sudaderas')}" class="category-card">
+                        <div class="card text-center p-4">
+                            <i class="fas fa-hoodie category-icon"></i>
+                            <h4>Sudaderas</h4>
+                            <p class="text-muted">Hoodies y buzos para entrenamiento y casual</p>
+                        </div>
                     </a>
                 </div>
                 <div class="col-md-3">
-                    <a th:href="@{/tienda(categoria='alfombrillas')}" class="category-card">
-                        <i class="fas fa-square feature-icon"></i>
-                        <h4>Alfombrillas</h4>
-                        <p class="text-muted">XL, RGB y antideslizantes</p>
+                    <a th:href="@{/tienda(categoria='calzado')}" class="category-card">
+                        <div class="card text-center p-4">
+                            <i class="fas fa-shoe-prints category-icon"></i>
+                            <h4>Calzado</h4>
+                            <p class="text-muted">Zapatos y botines de alto rendimiento</p>
+                        </div>
                     </a>
                 </div>
                 <div class="col-md-3">
-                    <a th:href="@{/tienda(categoria='audifonos')}" class="category-card">
-                        <i class="fas fa-headphones feature-icon"></i>
-                        <h4>Audífonos</h4>
-                        <p class="text-muted">Gaming, inalámbricos y profesionales</p>
+                    <a th:href="@{/tienda(categoria='accesorios')}" class="category-card">
+                        <div class="card text-center p-4">
+                            <i class="fas fa-football-ball category-icon"></i>
+                            <h4>Accesorios</h4>
+                            <p class="text-muted">Balones, guantes y equipamiento complementario</p>
+                        </div>
                     </a>
                 </div>
             </div>
@@ -139,39 +154,42 @@
     </section>
 
     <!-- Stats Section -->
-    <section class="stats-section">
+    <section class="py-5">
         <div class="container">
             <div class="row text-center">
-                <div class="col-md-3">
+                <div class="col-md-3 mb-4">
                     <div class="stat-number">500+</div>
-                    <p class="mb-0">Productos Disponibles</p>
+                    <p class="text-muted mb-0">Productos Deportivos</p>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 mb-4">
                     <div class="stat-number">10K+</div>
-                    <p class="mb-0">Clientes Satisfechos</p>
+                    <p class="text-muted mb-0">Atletas Satisfechos</p>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 mb-4">
                     <div class="stat-number">24/7</div>
-                    <p class="mb-0">Soporte Técnico</p>
+                    <p class="text-muted mb-0">Soporte Especializado</p>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-3 mb-4">
                     <div class="stat-number">99%</div>
-                    <p class="mb-0">Tasa de Satisfacción</p>
+                    <p class="text-muted mb-0">Calificación Positiva</p>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Footer -->
-    <footer class="bg-dark text-light py-4">
+    <footer class="footer">
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <h5><i class="fas fa-laptop-code me-2"></i>TechStore</h5>
-                    <p class="text-muted">Tu tienda de confianza para productos tecnológicos.</p>
+                    <div class="footer-brand">
+                        <i class="fas fa-dumbbell me-2"></i>SportStore
+                    </div>
+                    <p class="text-muted">Tu destino para equipamiento deportivo de calidad profesional.</p>
                 </div>
                 <div class="col-md-6 text-md-end">
-                    <p class="text-muted mb-0">&copy; 2024 TechStore. Todos los derechos reservados.</p>
+                    <p class="text-muted mb-0">&copy; 2024 SportStore. Todos los derechos reservados.</p>
+                    <p class="text-muted mb-0">info@sportstore.com | +57 1 123 4567</p>
                 </div>
             </div>
         </div>

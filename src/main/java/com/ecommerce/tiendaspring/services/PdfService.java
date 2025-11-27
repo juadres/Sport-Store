@@ -28,21 +28,19 @@ public class PdfService {
         PdfDocument pdfDoc = new PdfDocument(writer);
         Document document = new Document(pdfDoc);
 
-        // Fuentes
         PdfFont font = PdfFontFactory.createFont(StandardFonts.HELVETICA);
         PdfFont boldFont = PdfFontFactory.createFont(StandardFonts.HELVETICA_BOLD);
 
-        // Título
         Paragraph title = new Paragraph("FACTURA DE VENTA")
                 .setFont(boldFont)
                 .setFontSize(20)
                 .setTextAlignment(TextAlignment.CENTER);
         document.add(title);
 
-        document.add(new Paragraph(" ")); // Espacio
+        document.add(new Paragraph(" "));
 
-        // Información de la empresa
-        Paragraph empresa = new Paragraph("TechStore - Tu Tienda de Tecnología")
+        // CAMBIO: Nombre de empresa a SportStore
+        Paragraph empresa = new Paragraph("SportStore - Tu Tienda Deportiva")
                 .setFont(boldFont)
                 .setFontSize(12);
         document.add(empresa);
@@ -52,14 +50,14 @@ public class PdfService {
                 .setFontSize(10);
         document.add(direccion);
 
-        Paragraph contacto = new Paragraph("Tel: +57 1 1234567 | Email: info@techstore.com")
+        // CAMBIO: Email corporativo actualizado
+        Paragraph contacto = new Paragraph("Tel: +57 1 1234567 | Email: info@sportstore.com")
                 .setFont(font)
                 .setFontSize(10);
         document.add(contacto);
 
-        document.add(new Paragraph(" ")); // Espacio
+        document.add(new Paragraph(" "));
 
-        // Información de la factura
         Table infoTable = new Table(2);
         infoTable.setWidth(UnitValue.createPercentValue(100));
 
@@ -79,17 +77,14 @@ public class PdfService {
         document.add(infoTable);
         document.add(new Paragraph(" "));
 
-        // Tabla de productos
         Table table = new Table(UnitValue.createPercentArray(new float[]{3, 1, 2, 2}));
         table.setWidth(UnitValue.createPercentValue(100));
 
-        // Encabezados de tabla
         table.addHeaderCell(crearCelda("Producto", true));
         table.addHeaderCell(crearCelda("Cantidad", true));
         table.addHeaderCell(crearCelda("Precio Unit.", true));
         table.addHeaderCell(crearCelda("Subtotal", true));
 
-        // Detalles de la venta
         DecimalFormat df = new DecimalFormat("$#,##0.00");
         for (DetalleVenta detalle : venta.getDetalles()) {
             table.addCell(crearCelda(detalle.getProducto().getNombre(), false));
@@ -101,7 +96,6 @@ public class PdfService {
         document.add(table);
         document.add(new Paragraph(" "));
 
-        // Totales
         Table totalesTable = new Table(2);
         totalesTable.setWidth(UnitValue.createPercentValue(50));
         totalesTable.setMarginLeft(250f);
@@ -117,7 +111,6 @@ public class PdfService {
 
         document.add(totalesTable);
 
-        // Pie de página
         document.add(new Paragraph(" "));
         Paragraph agradecimiento = new Paragraph("¡Gracias por su compra!")
                 .setFont(boldFont)
@@ -125,7 +118,8 @@ public class PdfService {
                 .setTextAlignment(TextAlignment.CENTER);
         document.add(agradecimiento);
 
-        Paragraph contacto2 = new Paragraph("Para consultas: soporte@techstore.com")
+        // CAMBIO: Email de soporte actualizado
+        Paragraph contacto2 = new Paragraph("Para consultas: soporte@sportstore.com")
                 .setFont(font)
                 .setFontSize(10)
                 .setTextAlignment(TextAlignment.CENTER);
