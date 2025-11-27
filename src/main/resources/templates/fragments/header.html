@@ -52,7 +52,7 @@
                         <li class="nav-item" th:if="${#authorization.expression('isAuthenticated()')}">
                             <a class="nav-link position-relative" th:href="@{/carrito}">
                                 <i class="fas fa-shopping-cart me-1"></i> Carrito
-                                <span th:if="${#lists.size(carrito) > 0}" class="carrito-badge"
+                                <div th:if="${carrito != null and #lists.size(carrito) > 0}">
                                       th:text="${#lists.size(carrito)}"></span>
                             </a>
                         </li>
