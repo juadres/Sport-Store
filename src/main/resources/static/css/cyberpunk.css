@@ -887,3 +887,445 @@ html, body {
     background: var(--gradient-blue) !important;
     color: white !important;
 }
+
+/* ===== MIS COMPRAS - ESTILOS MEJORADOS ===== */
+.page-header {
+    margin-bottom: 3rem;
+}
+
+.page-title {
+    color: var(--text-primary);
+    font-family: 'Exo 2', sans-serif;
+    font-weight: 800;
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.page-subtitle {
+    font-size: 1.1rem;
+    margin-bottom: 0;
+}
+
+.empty-state {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.empty-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 20px;
+}
+
+.empty-icon {
+    font-size: 4rem;
+    color: var(--text-muted);
+    margin-bottom: 1.5rem;
+}
+
+.empty-title {
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.empty-text {
+    color: var(--text-muted);
+    margin-bottom: 2rem;
+    font-size: 1.1rem;
+}
+
+.empty-btn {
+    background: var(--gradient-primary);
+    border: none;
+    padding: 0.75rem 2rem;
+}
+
+.purchases-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 16px;
+    overflow: hidden;
+}
+
+.purchases-header {
+    background: rgba(255, 107, 53, 0.1);
+    border-bottom: 1px solid var(--border-light);
+    padding: 1.5rem 2rem;
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.purchases-badge {
+    background: var(--gradient-primary);
+    color: white;
+    border-radius: 20px;
+    padding: 0.25rem 0.75rem;
+    font-size: 0.8rem;
+}
+
+.purchases-table {
+    margin: 0;
+    color: var(--text-primary);
+}
+
+.purchases-thead {
+    background: rgba(255, 107, 53, 0.05);
+}
+
+.purchases-thead th {
+    border: none;
+    padding: 1.25rem 1rem;
+    font-weight: 600;
+    color: var(--primary-orange);
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 0.5px;
+}
+
+.purchase-row {
+    transition: all 0.3s ease;
+    border-bottom: 1px solid var(--border-light);
+}
+
+.purchase-row:hover {
+    background: rgba(255, 107, 53, 0.03);
+}
+
+.purchase-row td {
+    padding: 1.25rem 1rem;
+    vertical-align: middle;
+    border: none;
+}
+
+.invoice-number {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+.purchase-date {
+    color: var(--text-secondary);
+}
+
+.purchase-subtotal, .purchase-iva {
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.purchase-total {
+    font-weight: 600;
+}
+
+.total-amount {
+    color: var(--accent-yellow);
+    font-size: 1.1rem;
+}
+
+.btn-pdf {
+    background: var(--gradient-danger);
+    border: none;
+    color: white;
+    font-weight: 500;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+}
+
+.btn-pdf:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+}
+
+/* ===== HOME - ESTILOS MEJORADOS ===== */
+.hero-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 30% 50%, rgba(255, 107, 53, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 70% 20%, rgba(30, 136, 229, 0.08) 0%, transparent 50%);
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+}
+
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 800;
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
+}
+
+.hero-highlight {
+    background: var(--gradient-sports);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.hero-subtitle {
+    font-size: 1.3rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+    max-width: 600px;
+    margin: 0 auto 2rem;
+}
+
+.hero-actions {
+    margin-bottom: 2rem;
+}
+
+.btn-hero-primary {
+    background: var(--gradient-primary);
+    border: none;
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+}
+
+.btn-hero-secondary {
+    border: 2px solid var(--border-light);
+    color: var(--text-secondary);
+    padding: 0.75rem 2rem;
+    font-weight: 500;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.btn-hero-secondary:hover {
+    border-color: var(--primary-orange);
+    color: var(--text-primary);
+    background: rgba(255, 107, 53, 0.1);
+}
+
+.hero-stats {
+    border-top: 1px solid var(--border-light);
+    padding-top: 2rem;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 0 1.5rem;
+}
+
+.stat-item .stat-number {
+    font-size: 2rem;
+    font-weight: 800;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.25rem;
+}
+
+.stat-item .stat-label {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Features Section */
+.features-section {
+    background: var(--bg-dark);
+}
+
+.section-title {
+    font-family: 'Exo 2', sans-serif;
+    font-weight: 800;
+    font-size: 2.5rem;
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+}
+
+.section-subtitle {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.feature-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 16px;
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+    height: 100%;
+    transition: all 0.3s ease;
+}
+
+.feature-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--primary-orange);
+    box-shadow: var(--shadow-glow);
+}
+
+.feature-icon {
+    width: 80px;
+    height: 80px;
+    background: var(--gradient-primary);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 2rem;
+    color: white;
+}
+
+.feature-card h4 {
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.feature-card p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 0;
+}
+
+/* Categories Section */
+.categories-section {
+    background: var(--bg-darker);
+}
+
+.category-card {
+    display: block;
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 16px;
+    padding: 2.5rem 1.5rem;
+    text-align: center;
+    height: 100%;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: inherit;
+}
+
+.category-card:hover {
+    transform: translateY(-8px);
+    border-color: var(--primary-orange);
+    box-shadow: var(--shadow-glow);
+    color: inherit;
+    text-decoration: none;
+}
+
+.category-icon {
+    width: 70px;
+    height: 70px;
+    background: rgba(255, 107, 53, 0.1);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 1.5rem;
+    font-size: 1.75rem;
+    color: var(--primary-orange);
+}
+
+.category-card h4 {
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    font-weight: 600;
+}
+
+.category-card p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+.category-link {
+    color: var(--primary-orange);
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* CTA Section */
+.cta-section {
+    background: var(--gradient-hero);
+}
+
+.cta-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 20px;
+    padding: 3rem;
+    box-shadow: var(--shadow-card);
+}
+
+.cta-title {
+    color: var(--text-primary);
+    font-weight: 700;
+    font-size: 2rem;
+    margin-bottom: 1rem;
+}
+
+.cta-text {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+    margin-bottom: 0;
+}
+
+.btn-cta {
+    background: var(--gradient-primary);
+    border: none;
+    padding: 0.75rem 2rem;
+    font-weight: 600;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+}
+
+/* Animaciones */
+.animate-pop {
+    animation: popIn 0.8s ease-out;
+}
+
+@keyframes popIn {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Admin Dashboard - Métricas de Ventas */
+.stats-card .stats-icon .fa-chart-line {
+    color: var(--primary-blue);
+}
+
+.sold-count {
+    color: var(--primary-blue);
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.stock-initial {
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.available-stock {
+    color: var(--accent-green);
+    font-size: 1.1rem;
+}
+
+.stock-badge {
+    font-size: 0.8rem;
+    padding: 0.4rem 0.75rem;
+}
+
+/* Estilos para el porcentaje de ventas */
+.text-success .fa-trend-up {
+    margin-right: 0.25rem;
+}

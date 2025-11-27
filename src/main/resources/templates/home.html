@@ -12,134 +12,166 @@
     <!-- Header Unificado -->
     <div th:replace="fragments/header :: header"></div>
 
-    <!-- Hero Section -->
+    <!-- Hero Section Mejorada -->
     <section class="hero-section">
+        <div class="hero-overlay"></div>
         <div class="container">
             <div class="row justify-content-center text-center">
-                <div class="col-lg-8">
-                    <h1 class="hero-title">
-                        Equípate para el <span class="text-gradient">Éxito Deportivo</span>
-                    </h1>
-                    <p class="hero-subtitle">
-                        Descubre la mejor selección de equipamiento deportivo. Desde uniformes de fútbol 
-                        hasta calzado de alto rendimiento. Calidad profesional y envío express.
-                    </p>
-                    
-                    <div class="mt-5">
-                        <a th:href="@{/tienda}" class="btn btn-primary btn-lg me-3">
-                            <i class="fas fa-shopping-bag me-2"></i>Explorar Tienda
-                        </a>
-                        <a th:href="@{/#categories}" class="btn btn-outline-light btn-lg">
-                            <i class="fas fa-list me-2"></i>Ver Categorías
-                        </a>
+                <div class="col-lg-9">
+                    <div class="hero-content">
+                        <h1 class="hero-title animate-pop">
+                            Potencia tu <span class="hero-highlight">Rendimiento</span> Deportivo
+                        </h1>
+                        <p class="hero-subtitle">
+                            Descubre equipamiento de alta calidad para atletas que buscan superar sus límites. 
+                            Tecnología, diseño y comodidad en cada producto.
+                        </p>
+                        
+                        <div class="hero-actions mt-4">
+                            <a th:href="@{/tienda}" class="btn btn-hero-primary btn-lg me-3">
+                                <i class="fas fa-bolt me-2"></i>Explorar Colección
+                            </a>
+                            <a th:href="@{/#categories}" class="btn btn-hero-secondary btn-lg">
+                                <i class="fas fa-tags me-2"></i>Ver Categorías
+                            </a>
+                        </div>
+
+                        <!-- Stats en hero -->
+                        <div class="hero-stats mt-5">
+                            <div class="row justify-content-center">
+                                <div class="col-auto">
+                                    <div class="stat-item">
+                                        <div class="stat-number">500+</div>
+                                        <div class="stat-label">Productos</div>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="stat-item">
+                                        <div class="stat-number">10K+</div>
+                                        <div class="stat-label">Clientes</div>
+                                    </div>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="stat-item">
+                                        <div class="stat-number">24/7</div>
+                                        <div class="stat-label">Soporte</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Features Section -->
-    <section id="features" class="py-5">
+    <!-- Features Section Mejorada -->
+    <section id="features" class="features-section py-5">
         <div class="container">
             <div class="text-center mb-5">
-                <h2 class="fw-bold">¿Por qué SportStore?</h2>
-                <p class="text-muted">La experiencia de compra deportiva más completa - 2025</p>
+                <h2 class="section-title">Experiencia SportStore</h2>
+                <p class="section-subtitle">Todo lo que necesitas para tu pasión deportiva</p>
             </div>
             
             <div class="row g-4">
                 <div class="col-md-4">
-                    <div class="card text-center p-4">
-                        <i class="fas fa-award category-icon"></i>
-                        <h4>Calidad Garantizada</h4>
-                        <p class="text-muted">Productos de marcas reconocidas con garantía extendida</p>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-medal"></i>
+                        </div>
+                        <h4>Calidad Premium</h4>
+                        <p>Productos de marcas líderes con los más altos estándares de calidad y durabilidad.</p>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="card text-center p-4">
-                        <i class="fas fa-shipping-fast category-icon"></i>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-shipping-fast"></i>
+                        </div>
                         <h4>Envío Express</h4>
-                        <p class="text-muted">Recibe tus productos en 24-48 horas en toda la ciudad</p>
+                        <p>Recibe tus productos en 24-48 horas. Envío gratuito en compras superiores a $100.</p>
                     </div>
                 </div>
                 <div class="col-md-4">
-                    <div class="card text-center p-4">
-                        <i class="fas fa-headset category-icon"></i>
+                    <div class="feature-card">
+                        <div class="feature-icon">
+                            <i class="fas fa-headset"></i>
+                        </div>
                         <h4>Soporte Expertos</h4>
-                        <p class="text-muted">Asesoramiento profesional para elegir tu equipamiento</p>
+                        <p>Asesoramiento personalizado de profesionales del deporte para elegir tu equipamiento ideal.</p>
                     </div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Categories Section -->
-    <section id="categories" class="py-5 bg-darker">
+    <!-- Categories Section Mejorada -->
+    <section id="categories" class="categories-section py-5">
         <div class="container">
             <div class="text-center mb-5">
-                <h2 class="fw-bold">Nuestras Categorías</h2>
-                <p class="text-muted">Todo lo que necesitas para tu deporte favorito</p>
+                <h2 class="section-title">Explora por Categoría</h2>
+                <p class="section-subtitle">Encuentra el equipamiento perfecto para tu deporte</p>
             </div>
             
             <div class="row g-4">
-                <div class="col-md-3">
+                <div class="col-md-6 col-lg-3">
                     <a th:href="@{/tienda(categoria='uniformes')}" class="category-card">
-                        <div class="card text-center p-4">
-                            <i class="fas fa-tshirt category-icon"></i>
-                            <h4>Uniformes</h4>
-                            <p class="text-muted">Camisetas oficiales y equipamiento de fútbol</p>
+                        <div class="category-icon">
+                            <i class="fas fa-tshirt"></i>
                         </div>
+                        <h4>Uniformes</h4>
+                        <p>Camisetas oficiales, shorts y equipamiento completo para equipo.</p>
+                        <span class="category-link">Ver productos <i class="fas fa-arrow-right"></i></span>
                     </a>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-6 col-lg-3">
                     <a th:href="@{/tienda(categoria='sudaderas')}" class="category-card">
-                        <div class="card text-center p-4">
-                            <i class="fas fa-hoodie category-icon"></i>
-                            <h4>Sudaderas</h4>
-                            <p class="text-muted">Hoodies y buzos para entrenamiento y casual</p>
+                        <div class="category-icon">
+                            <i class="fas fa-hoodie"></i>
                         </div>
+                        <h4>Sudaderas</h4>
+                        <p>Hoodies, buzos y jackets para entrenamiento y estilo casual.</p>
+                        <span class="category-link">Ver productos <i class="fas fa-arrow-right"></i></span>
                     </a>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-6 col-lg-3">
                     <a th:href="@{/tienda(categoria='calzado')}" class="category-card">
-                        <div class="card text-center p-4">
-                            <i class="fas fa-shoe-prints category-icon"></i>
-                            <h4>Calzado</h4>
-                            <p class="text-muted">Zapatos y botines de alto rendimiento</p>
+                        <div class="category-icon">
+                            <i class="fas fa-shoe-prints"></i>
                         </div>
+                        <h4>Calzado</h4>
+                        <p>Zapatos, botines y tenis de alto rendimiento para cada disciplina.</p>
+                        <span class="category-link">Ver productos <i class="fas fa-arrow-right"></i></span>
                     </a>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-6 col-lg-3">
                     <a th:href="@{/tienda(categoria='accesorios')}" class="category-card">
-                        <div class="card text-center p-4">
-                            <i class="fas fa-football-ball category-icon"></i>
-                            <h4>Accesorios</h4>
-                            <p class="text-muted">Balones, guantes y equipamiento complementario</p>
+                        <div class="category-icon">
+                            <i class="fas fa-football-ball"></i>
                         </div>
+                        <h4>Accesorios</h4>
+                        <p>Balones, guantes, rodilleras y equipamiento complementario.</p>
+                        <span class="category-link">Ver productos <i class="fas fa-arrow-right"></i></span>
                     </a>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Stats Section -->
-    <section class="py-5">
+    <!-- CTA Section -->
+    <section class="cta-section py-5">
         <div class="container">
-            <div class="row text-center">
-                <div class="col-md-3 mb-4">
-                    <div class="stat-number">500+</div>
-                    <p class="text-muted mb-0">Productos Deportivos</p>
-                </div>
-                <div class="col-md-3 mb-4">
-                    <div class="stat-number">10K+</div>
-                    <p class="text-muted mb-0">Atletas Satisfechos</p>
-                </div>
-                <div class="col-md-3 mb-4">
-                    <div class="stat-number">24/7</div>
-                    <p class="text-muted mb-0">Soporte Especializado</p>
-                </div>
-                <div class="col-md-3 mb-4">
-                    <div class="stat-number">99%</div>
-                    <p class="text-muted mb-0">Calificación Positiva</p>
+            <div class="cta-card">
+                <div class="row align-items-center">
+                    <div class="col-lg-8">
+                        <h3 class="cta-title">¿Listo para llevar tu juego al siguiente nivel?</h3>
+                        <p class="cta-text">Descubre nuestra colección exclusiva y encuentra el equipamiento perfecto para destacar.</p>
+                    </div>
+                    <div class="col-lg-4 text-lg-end">
+                        <a th:href="@{/tienda}" class="btn btn-cta btn-lg">
+                            <i class="fas fa-rocket me-2"></i> Comenzar Ahora
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

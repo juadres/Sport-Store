@@ -93,21 +93,6 @@
                     <div class="card-body">
                         <div class="d-flex justify-content-between align-items-start">
                             <div>
-                                <p class="card-title text-muted mb-1">Total Reservado</p>
-                                <h3 class="stat-number text-info mb-0" th:text="${totalReservado}">0</h3>
-                            </div>
-                            <div class="stats-icon">
-                                <i class="fas fa-shopping-cart"></i>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-2 col-md-4 mb-3">
-                <div class="dashboard-card stats-card">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <div>
                                 <p class="card-title text-muted mb-1">Inventario Total</p>
                                 <h3 class="stat-number text-success mb-0" th:text="${inventarioTotal}">0</h3>
                             </div>
@@ -156,7 +141,7 @@
             </div>
         </div>
 
-        <!-- Tabla de Productos -->
+        <!-- Tabla de Productos SIMPLIFICADA (sin columna Reservado) -->
         <div class="card bg-dark border-light">
             <div class="card-header">
                 <h5 class="card-title mb-0">
@@ -170,9 +155,8 @@
                         <thead class="table-secondary">
                             <tr>
                                 <th>Producto Deportivo</th>
-                                <th>Stock</th>
-                                <th>Reservado</th>
-                                <th>Real</th>
+                                <th>Stock Total</th>
+                                <th>Disponible</th>
                                 <th>Estado</th>
                                 <th>Acciones</th>
                             </tr>
@@ -185,7 +169,6 @@
                                     <small class="text-muted" th:text="${p.categoria}"></small>
                                 </td>
                                 <td th:text="${p.stock}"></td>
-                                <td th:text="${p.stockReservado}"></td>
                                 <td>
                                     <strong th:text="${p.stock - p.stockReservado}"></strong>
                                 </td>

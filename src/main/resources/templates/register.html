@@ -195,199 +195,207 @@
             }
         }
 
-        // VALIDACIÓN DE NOMBRE COMPLETA Y OPTIMIZADA (NOMBRE OBLIGATORIO)
-        async function validateNombre() {
-            const nombreInput = document.getElementById('nombre');
-            const errorElement = document.getElementById('nombreError');
-            const errorText = document.getElementById('nombreErrorText');
-            const validElement = document.getElementById('nombreValid');
-            const apiStatus = document.getElementById('apiStatus');
-            const value = nombreInput.value.trim();
+            // VALIDACIÓN DE NOMBRE MEJORADA - FUERTE PERO INTELIGENTE
+            async function validateNombre() {
+                const nombreInput = document.getElementById('nombre');
+                const errorElement = document.getElementById('nombreError');
+                const errorText = document.getElementById('nombreErrorText');
+                const validElement = document.getElementById('nombreValid');
+                const apiStatus = document.getElementById('apiStatus');
+                const value = nombreInput.value.trim();
 
-            // Reset estados
-            nombreInput.classList.remove('is-valid', 'is-invalid');
-            errorElement.style.display = 'none';
-            validElement.style.display = 'none';
-            apiStatus.style.display = 'none';
+                // Reset estados
+                nombreInput.classList.remove('is-valid', 'is-invalid');
+                errorElement.style.display = 'none';
+                validElement.style.display = 'none';
+                apiStatus.style.display = 'none';
 
-            // Limpiar timeout anterior si existe
-            if (apiTimeout) {
-                clearTimeout(apiTimeout);
-                apiTimeout = null;
-            }
-
-            // CAMBIO: Si está vacío, ERROR (nombre obligatorio)
-            if (value === '') {
-                showError(nombreInput, errorElement, errorText, 'El nombre es obligatorio');
-                isNombreValid = false;
-                updateSubmitButton();
-                return;
-            }
-
-            // 1. Validación básica de caracteres
-            if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(value)) {
-                showError(nombreInput, errorElement, errorText, 'Solo se permiten letras y espacios. No se permiten números ni símbolos.');
-                isNombreValid = false;
-                updateSubmitButton();
-                return;
-            }
-
-            // 2. Longitud total
-            if (value.length < 2 || value.length > 50) {
-                showError(nombreInput, errorElement, errorText, 'El nombre debe tener entre 2 y 50 caracteres');
-                isNombreValid = false;
-                updateSubmitButton();
-                return;
-            }
-
-            // 3. No más de dos espacios seguidos
-            if (/\s{3,}/.test(value)) {
-                showError(nombreInput, errorElement, errorText, 'No se permiten más de dos espacios seguidos');
-                isNombreValid = false;
-                updateSubmitButton();
-                return;
-            }
-
-            // 4. Dividir en palabras
-            const words = value.split(/\s+/).filter(word => word.length > 0);
-
-            // 5. Solo 1 o 2 palabras (nombre obligatorio, apellido opcional)
-            if (words.length < 1 || words.length > 2) {
-                showError(nombreInput, errorElement, errorText, 'Debe contener 1 o 2 palabras (nombre obligatorio y apellido opcional)');
-                isNombreValid = false;
-                updateSubmitButton();
-                return;
-            }
-
-            // 6. Longitud de cada palabra (mínimo 3 caracteres, máximo 20)
-            for (let word of words) {
-                if (word.length < 3) {
-                    showError(nombreInput, errorElement, errorText, `Cada palabra debe tener al menos 3 caracteres. "${word}" tiene ${word.length}.`);
-                    isNombreValid = false;
-                    updateSubmitButton();
-                    return;
+                // Limpiar timeout anterior si existe
+                if (apiTimeout) {
+                    clearTimeout(apiTimeout);
+                    apiTimeout = null;
                 }
-                if (word.length > 20) {
-                    showError(nombreInput, errorElement, errorText, `Cada palabra debe tener máximo 20 caracteres. "${word}" tiene ${word.length}.`);
-                    isNombreValid = false;
-                    updateSubmitButton();
-                    return;
-                }
-            }
 
-            const nombreValue = value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-            const nombreSinEspacios = nombreValue.replace(/\s/g, '');
-
-            // 7. Detectar caracteres repetidos más de 2 veces seguidas
-            if (/(.)\1{2,}/.test(nombreValue)) {
-                showError(nombreInput, errorElement, errorText, 'El nombre contiene caracteres repetidos de forma inusual');
-                isNombreValid = false;
-                updateSubmitButton();
-                return;
-            }
-
-            // 8. Detectar secuencias de letras del teclado (MEJORADO)
-            const secuenciasTeclado = [
-                'qwerty', 'asdfgh', 'zxcvbn', 'poiuyt', 'lkjhgf', 'mnbvcx',
-                'qazwsx', 'edcrfv', 'tgbnhy', 'yhnujm', 'ikmloj', 'plmokn',
-                '123456', 'abcdef', 'qwertyuiop', 'asdfghjkl', 'zxcvbnm'
-            ];
-            if (secuenciasTeclado.some(seq => nombreSinEspacios.includes(seq))) {
-                showError(nombreInput, errorElement, errorText, 'El nombre contiene secuencias de teclado no válidas');
-                isNombreValid = false;
-                updateSubmitButton();
-                return;
-            }
-
-            // 9. Detectar pares de letras repetidos (MEJORADO)
-            const paresRepetidos = nombreSinEspacios.match(/([a-z]{2})\1+/g);
-            if (paresRepetidos && paresRepetidos.some(par => par.length >= 4)) {
-                showError(nombreInput, errorElement, errorText, 'El nombre contiene patrones de letras repetidos (ej: abab)');
-                isNombreValid = false;
-                updateSubmitButton();
-                return;
-            }
-
-            // 10. Verificar proporción de vocales y consonantes (MEJORADO)
-            const vocales = (nombreSinEspacios.match(/[aeiou]/g) || []).length;
-            const consonantes = (nombreSinEspacios.match(/[bcdfghjklmnpqrstvwxyz]/g) || []).length;
-            const longitudTotal = nombreSinEspacios.length;
-            
-            if (longitudTotal > 0) {
-                const proporcionVocales = vocales / longitudTotal;
-                
-                // Rangos más estrictos para nombres reales
-                if (proporcionVocales < 0.25 || proporcionVocales > 0.6) {
-                    showError(nombreInput, errorElement, errorText, 'El nombre tiene una proporción inusual de vocales y consonantes');
+                // 1. Validar que no esté vacío
+                if (value === '') {
+                    showError(nombreInput, errorElement, errorText, 'El nombre es obligatorio');
                     isNombreValid = false;
                     updateSubmitButton();
                     return;
                 }
 
-                // Validar que no haya demasiadas consonantes seguidas
-                if (/[bcdfghjklmnpqrstvwxyz]{4,}/.test(nombreSinEspacios)) {
-                    showError(nombreInput, errorElement, errorText, 'El nombre contiene demasiadas consonantes seguidas');
+                // 2. Longitud total
+                if (value.length < 2 || value.length > 50) {
+                    showError(nombreInput, errorElement, errorText, 'El nombre debe tener entre 2 y 50 caracteres');
                     isNombreValid = false;
                     updateSubmitButton();
                     return;
                 }
-            }
 
-            // 11. Detectar patrones alternados (como 'ababab') 
-            if (/(.{2,})(?:\1){2,}/.test(nombreSinEspacios)) {
-                showError(nombreInput, errorElement, errorText, 'El nombre contiene patrones repetitivos no naturales');
-                isNombreValid = false;
-                updateSubmitButton();
-                return;
-            }
+                // 3. Solo letras, espacios y acentos
+                if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(value)) {
+                    showError(nombreInput, errorElement, errorText, 'Solo se permiten letras, espacios y acentos. No se permiten números ni símbolos.');
+                    isNombreValid = false;
+                    updateSubmitButton();
+                    return;
+                }
 
-            // 12. Detectar secuencias numéricas o alfabéticas
-            const secuenciasComunes = [
-                '123', '234', '345', '456', '567', '678', '789',
-                'abc', 'bcd', 'cde', 'def', 'efg', 'fgh', 'ghi', 'hij', 'ijk', 'jkl', 'klm', 'lmn', 'mno', 'nop', 'opq', 'pqr', 'qrs', 'rst', 'stu', 'tuv', 'uvw', 'vwx', 'wxy', 'xyz'
-            ];
-            if (secuenciasComunes.some(seq => nombreSinEspacios.includes(seq))) {
-                showError(nombreInput, errorElement, errorText, 'El nombre contiene secuencias numéricas o alfabéticas');
-                isNombreValid = false;
-                updateSubmitButton();
-                return;
-            }
+                // 4. No más de dos espacios seguidos
+                if (/\s{3,}/.test(value)) {
+                    showError(nombreInput, errorElement, errorText, 'No se permiten más de dos espacios seguidos');
+                    isNombreValid = false;
+                    updateSubmitButton();
+                    return;
+                }
 
-            // Si pasó todas las validaciones usar API
-            apiStatus.style.display = 'block';
-            apiStatus.innerHTML = '<small class="api-loading"><i class="fas fa-sync-alt fa-spin"></i> Verificando nombre...</small>';
-            
-            apiTimeout = setTimeout(async () => {
-                try {
-                    const firstName = words[0];
-                    const response = await fetch(`https://api.genderize.io/?name=${encodeURIComponent(firstName)}`);
-                    
-                    if (!response.ok) throw new Error('API no disponible');
-                    
-                    const data = await response.json();
+                // 5. Dividir en palabras
+                const words = value.split(/\s+/).filter(word => word.length > 0);
 
-                    if (data.count === 0) {
-                        apiStatus.innerHTML = '<small class="api-warning"><i class="fas fa-exclamation-triangle"></i> Nombre poco común, verifica que sea correcto</small>';
-                        showValid(nombreInput, validElement);
-                        isNombreValid = true;
+                // 6. Entre 1 y 3 palabras (permite nombre + 2 apellidos)
+                if (words.length < 1 || words.length > 3) {
+                    showError(nombreInput, errorElement, errorText, 'Debe contener entre 1 y 3 palabras (nombre y apellidos)');
+                    isNombreValid = false;
+                    updateSubmitButton();
+                    return;
+                }
+
+                // 7. Longitud de cada palabra (mínimo 2, máximo 15)
+                for (let word of words) {
+                    if (word.length < 2) {
+                        showError(nombreInput, errorElement, errorText, `Cada palabra debe tener al menos 2 caracteres. "${word}" tiene ${word.length}.`);
+                        isNombreValid = false;
                         updateSubmitButton();
                         return;
                     }
-
-                    apiStatus.innerHTML = '<small class="api-success"><i class="fas fa-check-circle"></i> Nombre verificado</small>';
-                    showValid(nombreInput, validElement);
-                    isNombreValid = true;
-                    updateSubmitButton();
-                    
-                } catch (error) {
-                    console.warn('Validación API omitida:', error.message);
-                    apiStatus.innerHTML = '<small class="api-warning"><i class="fas fa-info-circle"></i> Validado localmente (API no disponible)</small>';
-                    showValid(nombreInput, validElement);
-                    isNombreValid = true;
-                    updateSubmitButton();
+                    if (word.length > 15) {
+                        showError(nombreInput, errorElement, errorText, `Cada palabra debe tener máximo 15 caracteres. "${word}" tiene ${word.length}.`);
+                        isNombreValid = false;
+                        updateSubmitButton();
+                        return;
+                    }
                 }
-            }, 800);
-        }
+
+                const nombreValue = value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
+                const nombreSinEspacios = nombreValue.replace(/\s/g, '');
+
+                // 8. Detectar caracteres repetidos (solo si son 4 o más seguidos)
+                if (/(.)\1{3,}/.test(nombreSinEspacios)) {
+                    showError(nombreInput, errorElement, errorText, 'El nombre contiene caracteres repetidos de forma inusual');
+                    isNombreValid = false;
+                    updateSubmitButton();
+                    return;
+                }
+
+                // 9. LISTA BLANCA de nombres comunes que deben pasar siempre
+                const nombresComunes = [
+                    'juan', 'carlos', 'andres', 'lopez', 'garcia', 'martinez', 'rodriguez',
+                    'maria', 'ana', 'lucia', 'sofia', 'carmen', 'elena', 'isabel',
+                    'pedro', 'jose', 'miguel', 'david', 'antonio', 'francisco', 'manuel',
+                    'camilo', 'esteban', 'fernando', 'ricardo', 'roberto', 'santiago'
+                ];
+
+                // Verificar si alguna palabra está en la lista blanca
+                const tieneNombreComun = words.some(word => 
+                    nombresComunes.includes(word.toLowerCase())
+                );
+
+                // 10. Detectar secuencias de teclado (solo si NO tiene nombres comunes)
+                if (!tieneNombreComun) {
+                    const secuenciasTeclado = [
+                        'qwerty', 'asdfgh', 'zxcvbn', 'poiuyt', 'lkjhgf', 'mnbvcx',
+                        'qazwsx', 'edcrfv', 'tgbnhy', 'yhnujm', 'ikmloj', 'plmokn'
+                    ];
+                    
+                    if (secuenciasTeclado.some(seq => nombreSinEspacios.includes(seq))) {
+                        showError(nombreInput, errorElement, errorText, 'El nombre contiene secuencias de teclado no válidas');
+                        isNombreValid = false;
+                        updateSubmitButton();
+                        return;
+                    }
+                }
+
+                // 11. Detectar patrones repetitivos (solo si NO tiene nombres comunes)
+                if (!tieneNombreComun) {
+                    if (/(.{2,})(?:\1){2,}/.test(nombreSinEspacios)) {
+                        showError(nombreInput, errorElement, errorText, 'El nombre contiene patrones repetitivos no naturales');
+                        isNombreValid = false;
+                        updateSubmitButton();
+                        return;
+                    }
+                }
+
+                // 12. Validar proporción de vocales y consonantes (más flexible para nombres reales)
+                const vocales = (nombreSinEspacios.match(/[aeiou]/g) || []).length;
+                const consonantes = (nombreSinEspacios.match(/[bcdfghjklmnpqrstvwxyz]/g) || []).length;
+                const longitudTotal = nombreSinEspacios.length;
+                
+                if (longitudTotal > 0) {
+                    const proporcionVocales = vocales / longitudTotal;
+                    
+                    // Rangos más flexibles para nombres reales
+                    if (proporcionVocales < 0.2 || proporcionVocales > 0.7) {
+                        // Pero permitir si tiene nombres comunes
+                        if (!tieneNombreComun) {
+                            showError(nombreInput, errorElement, errorText, 'El nombre tiene una proporción inusual de vocales y consonantes');
+                            isNombreValid = false;
+                            updateSubmitButton();
+                            return;
+                        }
+                    }
+
+                    // Validar que no haya demasiadas consonantes seguidas (solo si NO tiene nombres comunes)
+                    if (!tieneNombreComun && /[bcdfghjklmnpqrstvwxyz]{5,}/.test(nombreSinEspacios)) {
+                        showError(nombreInput, errorElement, errorText, 'El nombre contiene demasiadas consonantes seguidas');
+                        isNombreValid = false;
+                        updateSubmitButton();
+                        return;
+                    }
+                }
+
+                // 13. Detectar secuencias numéricas o alfabéticas (solo si NO tiene nombres comunes)
+                if (!tieneNombreComun) {
+                    const secuenciasComunes = [
+                        '123', '234', '345', '456', '567', '678', '789',
+                        'abc', 'bcd', 'cde', 'def', 'efg', 'fgh', 'ghi', 'hij', 'ijk', 'jkl', 'klm', 'lmn', 'mno'
+                    ];
+                    if (secuenciasComunes.some(seq => nombreSinEspacios.includes(seq))) {
+                        showError(nombreInput, errorElement, errorText, 'El nombre contiene secuencias numéricas o alfabéticas');
+                        isNombreValid = false;
+                        updateSubmitButton();
+                        return;
+                    }
+                }
+
+                // Si pasa todas las validaciones usar API
+                apiStatus.style.display = 'block';
+                apiStatus.innerHTML = '<small class="api-loading"><i class="fas fa-sync-alt fa-spin"></i> Verificando nombre...</small>';
+                
+                apiTimeout = setTimeout(async () => {
+                    try {
+                        const firstName = words[0];
+                        const response = await fetch(`https://api.genderize.io/?name=${encodeURIComponent(firstName)}`);
+                        
+                        if (!response.ok) throw new Error('API no disponible');
+                        
+                        const data = await response.json();
+
+                        if (data.count === 0 && !tieneNombreComun) {
+                            apiStatus.innerHTML = '<small class="api-warning"><i class="fas fa-exclamation-triangle"></i> Nombre poco común, verifica que sea correcto</small>';
+                        } else {
+                            apiStatus.innerHTML = '<small class="api-success"><i class="fas fa-check-circle"></i> Nombre verificado</small>';
+                        }
+                        
+                    } catch (error) {
+                        console.warn('Validación API omitida:', error.message);
+                        apiStatus.innerHTML = '<small class="api-warning"><i class="fas fa-info-circle"></i> Validado localmente</small>';
+                    }
+                }, 800);
+
+                // Si llegó hasta aquí, el nombre es válido
+                showValid(nombreInput, validElement);
+                isNombreValid = true;
+                updateSubmitButton();
+            }
 
         // VALIDACIÓN DE EMAIL ACTUALIZADA PARA CUALQUIER GMAIL
         function validateEmail() {
@@ -720,148 +728,80 @@
             }
         }
 
-        // Validación sincrónica del nombre (para envío del formulario)
-        function validateNombreSync() {
-            const nombreInput = document.getElementById('nombre');
-            const errorElement = document.getElementById('nombreError');
-            const errorText = document.getElementById('nombreErrorText');
-            const validElement = document.getElementById('nombreValid');
-            const apiStatus = document.getElementById('apiStatus');
-            const value = nombreInput.value.trim();
+       // Validación sincrónica del nombre (para envío del formulario) - VERSIÓN MEJORADA
+function validateNombreSync() {
+    const nombreInput = document.getElementById('nombre');
+    const errorElement = document.getElementById('nombreError');
+    const errorText = document.getElementById('nombreErrorText');
+    const validElement = document.getElementById('nombreValid');
+    const apiStatus = document.getElementById('apiStatus');
+    const value = nombreInput.value.trim();
 
-            // Reset estados
-            nombreInput.classList.remove('is-valid', 'is-invalid');
-            errorElement.style.display = 'none';
-            validElement.style.display = 'none';
-            apiStatus.style.display = 'none';
+    // Reset estados
+    nombreInput.classList.remove('is-valid', 'is-invalid');
+    errorElement.style.display = 'none';
+    validElement.style.display = 'none';
+    apiStatus.style.display = 'none';
 
-            // Si está vacío, ERROR (nombre obligatorio)
-            if (value === '') {
-                showError(nombreInput, errorElement, errorText, 'El nombre es obligatorio');
-                isNombreValid = false;
-                updateSubmitButton();
-                return;
-            }
+    // Si está vacío, ERROR
+    if (value === '') {
+        showError(nombreInput, errorElement, errorText, 'El nombre es obligatorio');
+        isNombreValid = false;
+        updateSubmitButton();
+        return;
+    }
 
-            // Ejecutar validaciones locales
-            if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(value)) {
-                showError(nombreInput, errorElement, errorText, 'Solo se permiten letras y espacios. No se permiten números ni símbolos.');
-                isNombreValid = false;
-                updateSubmitButton();
-                return;
-            }
+    // Ejecutar validaciones locales (igual que la función async pero sin API)
+    if (!/^[a-zA-ZáéíóúÁÉÍÓÚñÑ\s]+$/.test(value)) {
+        showError(nombreInput, errorElement, errorText, 'Solo se permiten letras y espacios. No se permiten números ni símbolos.');
+        isNombreValid = false;
+        updateSubmitButton();
+        return;
+    }
 
-            if (value.length < 2 || value.length > 50) {
-                showError(nombreInput, errorElement, errorText, 'El nombre debe tener entre 2 y 50 caracteres');
-                isNombreValid = false;
-                updateSubmitButton();
-                return;
-            }
+    if (value.length < 2 || value.length > 50) {
+        showError(nombreInput, errorElement, errorText, 'El nombre debe tener entre 2 y 50 caracteres');
+        isNombreValid = false;
+        updateSubmitButton();
+        return;
+    }
 
-            if (/\s{3,}/.test(value)) {
-                showError(nombreInput, errorElement, errorText, 'No se permiten más de dos espacios seguidos');
-                isNombreValid = false;
-                updateSubmitButton();
-                return;
-            }
+    if (/\s{3,}/.test(value)) {
+        showError(nombreInput, errorElement, errorText, 'No se permiten más de dos espacios seguidos');
+        isNombreValid = false;
+        updateSubmitButton();
+        return;
+    }
 
-            const words = value.split(/\s+/).filter(word => word.length > 0);
+    const words = value.split(/\s+/).filter(word => word.length > 0);
 
-            if (words.length < 1 || words.length > 2) {
-                showError(nombreInput, errorElement, errorText, 'Debe contener 1 o 2 palabras (nombre obligatorio y apellido opcional)');
-                isNombreValid = false;
-                updateSubmitButton();
-                return;
-            }
+    if (words.length < 1 || words.length > 3) {
+        showError(nombreInput, errorElement, errorText, 'Debe contener entre 1 y 3 palabras (nombre y apellidos)');
+        isNombreValid = false;
+        updateSubmitButton();
+        return;
+    }
 
-            for (let word of words) {
-                if (word.length < 3) {
-                    showError(nombreInput, errorElement, errorText, `Cada palabra debe tener al menos 3 caracteres. "${word}" tiene ${word.length}.`);
-                    isNombreValid = false;
-                    updateSubmitButton();
-                    return;
-                }
-                if (word.length > 20) {
-                    showError(nombreInput, errorElement, errorText, `Cada palabra debe tener máximo 20 caracteres. "${word}" tiene ${word.length}.`);
-                    isNombreValid = false;
-                    updateSubmitButton();
-                    return;
-                }
-            }
-
-            const nombreValue = value.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
-            const nombreSinEspacios = nombreValue.replace(/\s/g, '');
-
-            if (/(.)\1{2,}/.test(nombreValue)) {
-                showError(nombreInput, errorElement, errorText, 'El nombre contiene caracteres repetidos de forma inusual');
-                isNombreValid = false;
-                updateSubmitButton();
-                return;
-            }
-
-            const secuenciasTeclado = [
-                'qwerty', 'asdfgh', 'zxcvbn', 'poiuyt', 'lkjhgf', 'mnbvcx',
-                'qazwsx', 'edcrfv', 'tgbnhy', 'yhnujm', 'ikmloj', 'plmokn',
-                '123456', 'abcdef', 'qwertyuiop', 'asdfghjkl', 'zxcvbnm'
-            ];
-            if (secuenciasTeclado.some(seq => nombreSinEspacios.includes(seq))) {
-                showError(nombreInput, errorElement, errorText, 'El nombre contiene secuencias de teclado no válidas');
-                isNombreValid = false;
-                updateSubmitButton();
-                return;
-            }
-
-            const paresRepetidos = nombreSinEspacios.match(/([a-z]{2})\1+/g);
-            if (paresRepetidos && paresRepetidos.some(par => par.length >= 4)) {
-                showError(nombreInput, errorElement, errorText, 'El nombre contiene patrones de letras repetidos (ej: abab)');
-                isNombreValid = false;
-                updateSubmitButton();
-                return;
-            }
-
-            const vocales = (nombreSinEspacios.match(/[aeiou]/g) || []).length;
-            const longitudTotal = nombreSinEspacios.length;
-            
-            if (longitudTotal > 0) {
-                const proporcionVocales = vocales / longitudTotal;
-                if (proporcionVocales < 0.25 || proporcionVocales > 0.6) {
-                    showError(nombreInput, errorElement, errorText, 'El nombre tiene una proporción inusual de vocales y consonantes');
-                    isNombreValid = false;
-                    updateSubmitButton();
-                    return;
-                }
-
-                if (/[bcdfghjklmnpqrstvwxyz]{4,}/.test(nombreSinEspacios)) {
-                    showError(nombreInput, errorElement, errorText, 'El nombre contiene demasiadas consonantes seguidas');
-                    isNombreValid = false;
-                    updateSubmitButton();
-                    return;
-                }
-            }
-
-            if (/(.{2,})(?:\1){2,}/.test(nombreSinEspacios)) {
-                showError(nombreInput, errorElement, errorText, 'El nombre contiene patrones repetitivos no naturales');
-                isNombreValid = false;
-                updateSubmitButton();
-                return;
-            }
-
-            const secuenciasComunes = [
-                '123', '234', '345', '456', '567', '678', '789',
-                'abc', 'bcd', 'cde', 'def', 'efg', 'fgh', 'ghi', 'hij', 'ijk', 'jkl', 'klm', 'lmn', 'mno', 'nop', 'opq', 'pqr', 'qrs', 'rst', 'stu', 'tuv', 'uvw', 'vwx', 'wxy', 'xyz'
-            ];
-            if (secuenciasComunes.some(seq => nombreSinEspacios.includes(seq))) {
-                showError(nombreInput, errorElement, errorText, 'El nombre contiene secuencias numéricas o alfabéticas');
-                isNombreValid = false;
-                updateSubmitButton();
-                return;
-            }
-
-            // Si pasa todas las validaciones locales
-            showValid(nombreInput, validElement);
-            isNombreValid = true;
+    for (let word of words) {
+        if (word.length < 2) {
+            showError(nombreInput, errorElement, errorText, `Cada palabra debe tener al menos 2 caracteres. "${word}" tiene ${word.length}.`);
+            isNombreValid = false;
             updateSubmitButton();
+            return;
         }
+        if (word.length > 15) {
+            showError(nombreInput, errorElement, errorText, `Cada palabra debe tener máximo 15 caracteres. "${word}" tiene ${word.length}.`);
+            isNombreValid = false;
+            updateSubmitButton();
+            return;
+        }
+    }
+
+    // Si pasa todas las validaciones locales
+    showValid(nombreInput, validElement);
+    isNombreValid = true;
+    updateSubmitButton();
+}
 
         // Validar formulario antes de enviar
         document.getElementById('registerForm').addEventListener('submit', function(e) {
