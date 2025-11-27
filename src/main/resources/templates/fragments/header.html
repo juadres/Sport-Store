@@ -7,10 +7,10 @@
 <body>
     <!-- Header Fragment -->
     <header class="header" th:fragment="header">
-        <nav class="navbar navbar-expand-lg">
+        <nav class="navbar navbar-expand-lg navbar-dark">
             <div class="container">
                 <a class="navbar-brand" th:href="@{/}">
-                    <i class="fas fa-dumbbell me-2"></i>SportStore 2025
+                    <i class="fas fa-running me-2"></i>SportPro
                 </a>
                 
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
@@ -52,8 +52,8 @@
                         <li class="nav-item" th:if="${#authorization.expression('isAuthenticated()')}">
                             <a class="nav-link position-relative" th:href="@{/carrito}">
                                 <i class="fas fa-shopping-cart me-1"></i> Carrito
-                                <div th:if="${carrito != null and #lists.size(carrito) > 0}">
-                                      th:text="${#lists.size(carrito)}"></span>
+                                <span th:if="${carrito != null and #lists.size(carrito) > 0}" 
+                                      class="carrito-badge" th:text="${#lists.size(carrito)}"></span>
                             </a>
                         </li>
                         
