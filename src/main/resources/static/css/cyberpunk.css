@@ -1,26 +1,39 @@
-/* SportStore - Modern Sports Theme 2025 */
+/* SportStore - Sports Theme 2025 */
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Exo+2:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  --bg-dark: #0a0f1c;
-  --bg-darker: #050913;
-  --bg-card: #111827;
-  --accent-primary: #3b82f6;
-  --accent-secondary: #10b981;
-  --accent-warning: #f59e0b;
-  --accent-danger: #ef4444;
-  --text-primary: #f8fafc;
-  --text-secondary: #cbd5e1;
-  --text-muted: #64748b;
+  /* Colores principales deportivos */
+  --primary-orange: #FF6B35;
+  --primary-blue: #1E88E5;
+  --accent-green: #00C853;
+  --accent-red: #FF5252;
+  --accent-yellow: #FFD600;
+  
+  /* Fondos */
+  --bg-dark: #0D1B2A;
+  --bg-darker: #070F1C;
+  --bg-card: #1B2A41;
+  --bg-light: #2C3E50;
+  
+  /* Textos */
+  --text-primary: #FFFFFF;
+  --text-secondary: #B0BEC5;
+  --text-muted: #78909C;
+  
+  /* Bordes y efectos */
   --border-light: rgba(255,255,255,0.1);
   --border-medium: rgba(255,255,255,0.15);
-  --shadow-glow: 0 0 20px rgba(59, 130, 246, 0.15);
+  --shadow-glow: 0 0 20px rgba(255, 107, 53, 0.2);
   --shadow-card: 0 8px 32px rgba(0,0,0,0.3);
-  --gradient-primary: linear-gradient(135deg, #3b82f6, #1d4ed8);
-  --gradient-success: linear-gradient(135deg, #10b981, #047857);
-  --gradient-warning: linear-gradient(135deg, #f59e0b, #d97706);
-  --gradient-danger: linear-gradient(135deg, #ef4444, #dc2626);
-  --gradient-hero: linear-gradient(135deg, #0a0f1c 0%, #1e293b 100%);
+  
+  /* Gradientes deportivos */
+  --gradient-primary: linear-gradient(135deg, #FF6B35, #F7931E);
+  --gradient-blue: linear-gradient(135deg, #1E88E5, #1565C0);
+  --gradient-success: linear-gradient(135deg, #00C853, #009624);
+  --gradient-warning: linear-gradient(135deg, #FFD600, #FF8F00);
+  --gradient-danger: linear-gradient(135deg, #FF5252, #D32F2F);
+  --gradient-hero: linear-gradient(135deg, #0D1B2A 0%, #1E3A5F 100%);
+  --gradient-sports: linear-gradient(135deg, #FF6B35 0%, #1E88E5 50%, #00C853 100%);
 }
 
 * {
@@ -39,9 +52,9 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Header Mejorado */
+/* Header Deportivo */
 .header {
-  background: rgba(11, 15, 25, 0.95);
+  background: rgba(13, 27, 42, 0.95);
   backdrop-filter: blur(20px);
   border-bottom: 1px solid var(--border-light);
   position: sticky;
@@ -51,7 +64,7 @@ html, body {
 }
 
 .header.scrolled {
-  background: rgba(11, 15, 25, 0.98);
+  background: rgba(13, 27, 42, 0.98);
   box-shadow: 0 4px 20px rgba(0,0,0,0.2);
 }
 
@@ -59,7 +72,7 @@ html, body {
   font-family: 'Exo 2', sans-serif;
   font-weight: 800;
   font-size: 1.75rem;
-  background: var(--gradient-primary);
+  background: var(--gradient-sports);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -68,14 +81,22 @@ html, body {
   gap: 0.5rem;
 }
 
-.navbar-brand i {
-  background: var(--gradient-primary);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+.nav-link {
+  color: var(--text-secondary) !important;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  margin: 0 2px;
+  padding: 0.5rem 1rem !important;
 }
 
-/* Hero Section Mejorada */
+.nav-link:hover {
+  color: var(--text-primary) !important;
+  background: rgba(255, 107, 53, 0.1);
+  transform: translateY(-2px);
+}
+
+/* Hero Section Deportiva */
 .hero-section {
   background: var(--gradient-hero);
   min-height: 85vh;
@@ -93,9 +114,9 @@ html, body {
   right: 0;
   bottom: 0;
   background: 
-    radial-gradient(circle at 20% 80%, rgba(59, 130, 246, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.1) 0%, transparent 50%),
-    radial-gradient(circle at 40% 40%, rgba(245, 158, 11, 0.05) 0%, transparent 50%);
+    radial-gradient(circle at 20% 80%, rgba(255, 107, 53, 0.15) 0%, transparent 50%),
+    radial-gradient(circle at 80% 20%, rgba(30, 136, 229, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 40% 40%, rgba(0, 200, 83, 0.05) 0%, transparent 50%);
   animation: float 8s ease-in-out infinite;
 }
 
@@ -103,7 +124,7 @@ html, body {
   font-family: 'Exo 2', sans-serif;
   font-weight: 800;
   font-size: 4rem;
-  background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent-primary) 50%, var(--accent-secondary) 100%);
+  background: var(--gradient-sports);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -119,11 +140,11 @@ html, body {
   font-weight: 300;
 }
 
-/* Cards Mejoradas */
+/* Cards Deportivas */
 .card {
   background: var(--bg-card);
   border: 1px solid var(--border-light);
-  border-radius: 20px;
+  border-radius: 16px;
   box-shadow: var(--shadow-card);
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   backdrop-filter: blur(10px);
@@ -131,15 +152,16 @@ html, body {
 }
 
 .card:hover {
-  transform: translateY(-12px) scale(1.02);
-  box-shadow: var(--shadow-glow), 0 20px 40px rgba(0,0,0,0.4);
-  border-color: var(--accent-primary);
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-glow), 0 15px 30px rgba(0,0,0,0.4);
+  border-color: var(--primary-orange);
 }
 
 .producto-imagen {
-  height: 240px;
+  height: 220px;
   overflow: hidden;
   position: relative;
+  background: linear-gradient(45deg, var(--bg-light), var(--bg-card));
 }
 
 .producto-imagen img {
@@ -153,80 +175,48 @@ html, body {
   transform: scale(1.1);
 }
 
-.producto-imagen::after {
-  content: '';
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 60%;
-  background: linear-gradient(transparent, rgba(0,0,0,0.7));
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.card:hover .producto-imagen::after {
-  opacity: 1;
-}
-
-/* Nuevo: Quick Add Button */
-.quick-add-btn {
-  position: absolute;
-  bottom: 1rem;
-  left: 50%;
-  transform: translateX(-50%) translateY(20px);
-  opacity: 0;
-  transition: all 0.3s ease;
-  z-index: 2;
-}
-
-.card:hover .quick-add-btn {
-  opacity: 1;
-  transform: translateX(-50%) translateY(0);
-}
-
-/* Botones Mejorados */
+/* Botones Deportivos */
 .btn {
   border: none;
-  border-radius: 14px;
+  border-radius: 12px;
   font-weight: 600;
-  padding: 14px 28px;
+  padding: 12px 24px;
   transition: all 0.3s ease;
   position: relative;
   overflow: hidden;
   font-family: 'Exo 2', sans-serif;
-}
-
-.btn::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
-  transition: left 0.6s;
-}
-
-.btn:hover::before {
-  left: 100%;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 0.9rem;
 }
 
 .btn-primary {
   background: var(--gradient-primary);
   color: white;
+  border: none;
 }
 
 .btn-primary:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-glow), 0 10px 25px rgba(59, 130, 246, 0.3);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glow), 0 8px 20px rgba(255, 107, 53, 0.3);
 }
 
-/* Dashboard Admin Mejorado */
+.btn-outline-light {
+  border: 2px solid var(--border-light);
+  color: var(--text-secondary);
+}
+
+.btn-outline-light:hover {
+  border-color: var(--primary-orange);
+  background: rgba(255, 107, 53, 0.1);
+  color: var(--text-primary);
+}
+
+/* Dashboard Cards Deportivas */
 .dashboard-card {
   background: var(--bg-card);
   border: 1px solid var(--border-light);
-  border-radius: 20px;
+  border-radius: 16px;
   padding: 1.5rem;
   transition: all 0.3s ease;
   position: relative;
@@ -238,7 +228,7 @@ html, body {
   position: absolute;
   top: 0;
   left: 0;
-  width: 4px;
+  width: 5px;
   height: 100%;
   background: var(--gradient-primary);
 }
@@ -260,7 +250,15 @@ html, body {
   line-height: 1;
 }
 
-/* Tabla Mejorada */
+/* Estadísticas con colores deportivos */
+.card.bg-primary { background: var(--gradient-blue) !important; }
+.card.bg-warning { background: var(--gradient-warning) !important; }
+.card.bg-danger { background: var(--gradient-danger) !important; }
+.card.bg-info { background: var(--gradient-blue) !important; opacity: 0.9; }
+.card.bg-success { background: var(--gradient-success) !important; }
+.card.bg-secondary { background: var(--bg-light) !important; }
+
+/* Tablas Deportivas */
 .table-responsive {
   border-radius: 16px;
   overflow: hidden;
@@ -273,8 +271,8 @@ html, body {
 }
 
 .table th {
-  background: rgba(59, 130, 246, 0.15);
-  color: var(--accent-primary);
+  background: rgba(255, 107, 53, 0.15);
+  color: var(--primary-orange);
   font-weight: 600;
   border: none;
   padding: 1.25rem;
@@ -292,19 +290,29 @@ html, body {
 }
 
 .table tbody tr:hover td {
-  background: rgba(59, 130, 246, 0.05);
+  background: rgba(255, 107, 53, 0.05);
 }
 
-/* Carrito Mejorado */
-.carrito-item {
-  transition: all 0.3s ease;
-  border-radius: 16px;
-  overflow: hidden;
+/* Badges Deportivos */
+.badge-stock {
+  background: var(--gradient-success);
+  color: white;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  border-radius: 20px;
 }
 
-.carrito-item:hover {
-  background: rgba(59, 130, 246, 0.05);
-  transform: translateX(5px);
+.badge.bg-danger {
+  background: var(--gradient-danger) !important;
+}
+
+.badge.bg-warning {
+  background: var(--gradient-warning) !important;
+  color: #000 !important;
+}
+
+.badge.bg-success {
+  background: var(--gradient-success) !important;
 }
 
 .carrito-badge {
@@ -324,7 +332,71 @@ html, body {
   animation: pulse 2s infinite;
 }
 
-/* Animaciones Mejoradas */
+/* Filtros Deportivos */
+.filter-section {
+  background: var(--bg-card);
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin-bottom: 2rem;
+  border: 1px solid var(--border-light);
+}
+
+.nav-pills .nav-link {
+  background: transparent;
+  border: 2px solid var(--border-light);
+  color: var(--text-secondary);
+  border-radius: 12px;
+  margin: 0 0.25rem;
+  transition: all 0.3s ease;
+}
+
+.nav-pills .nav-link.active {
+  background: var(--gradient-primary);
+  border-color: var(--primary-orange);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glow);
+}
+
+.filter-btn {
+  background: transparent;
+  border: 1px solid var(--border-light);
+  color: var(--text-secondary);
+  border-radius: 12px;
+  padding: 0.75rem 1.5rem;
+  transition: all 0.3s ease;
+  font-weight: 500;
+}
+
+.filter-btn.active,
+.filter-btn:hover {
+  background: var(--gradient-primary);
+  border-color: var(--primary-orange);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-glow);
+}
+
+/* Footer */
+.footer {
+  background: var(--bg-darker);
+  border-top: 1px solid var(--border-light);
+  padding: 3rem 0 2rem;
+  margin-top: 4rem;
+}
+
+.footer-brand {
+  font-family: 'Exo 2', sans-serif;
+  font-weight: 800;
+  font-size: 1.5rem;
+  background: var(--gradient-sports);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 1rem;
+}
+
+/* Animaciones */
 @keyframes float {
   0%, 100% { 
     transform: translateY(0px) rotate(0deg); 
@@ -356,66 +428,6 @@ html, body {
   }
 }
 
-/* Filtros Mejorados */
-.filter-section {
-  background: var(--bg-card);
-  border-radius: 20px;
-  padding: 1.5rem;
-  margin-bottom: 2rem;
-  border: 1px solid var(--border-light);
-}
-
-.filter-btn {
-  background: transparent;
-  border: 1px solid var(--border-light);
-  color: var(--text-secondary);
-  border-radius: 12px;
-  padding: 0.75rem 1.5rem;
-  transition: all 0.3s ease;
-  font-weight: 500;
-}
-
-.filter-btn.active,
-.filter-btn:hover {
-  background: var(--gradient-primary);
-  border-color: var(--accent-primary);
-  color: white;
-  transform: translateY(-2px);
-  box-shadow: var(--shadow-glow);
-}
-
-/* Loading Optimizado */
-.skeleton-loader {
-  background: linear-gradient(90deg, var(--bg-card) 25%, rgba(255,255,255,0.1) 50%, var(--bg-card) 75%);
-  background-size: 200% 100%;
-  animation: loading 1.5s infinite;
-  border-radius: 8px;
-}
-
-@keyframes loading {
-  0% {
-    background-position: 200% 0;
-  }
-  100% {
-    background-position: -200% 0;
-  }
-}
-
-/* Notificaciones */
-.notification {
-  position: fixed;
-  top: 100px;
-  right: 20px;
-  background: var(--bg-card);
-  border-left: 4px solid var(--accent-primary);
-  border-radius: 12px;
-  padding: 1rem 1.5rem;
-  box-shadow: var(--shadow-card);
-  z-index: 1050;
-  animation: slideIn 0.3s ease;
-  max-width: 350px;
-}
-
 /* Scrollbar Personalizado */
 ::-webkit-scrollbar {
   width: 10px;
@@ -432,10 +444,10 @@ html, body {
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-secondary);
+  background: var(--primary-blue);
 }
 
-/* Responsive Mejorado */
+/* Responsive */
 @media (max-width: 768px) {
   .hero-title {
     font-size: 2.5rem;
@@ -457,76 +469,52 @@ html, body {
   .stat-number {
     font-size: 2.5rem;
   }
+  
+  .nav-pills .nav-link {
+    margin: 0.25rem;
+    font-size: 0.9rem;
+  }
 }
 
-/* Efectos de Partículas (Opcional) */
-.particles {
+/* Notificaciones */
+.notification {
+  position: fixed;
+  top: 100px;
+  right: 20px;
+  background: var(--bg-card);
+  border-left: 4px solid var(--primary-orange);
+  border-radius: 12px;
+  padding: 1rem 1.5rem;
+  box-shadow: var(--shadow-card);
+  z-index: 1050;
+  animation: slideIn 0.3s ease;
+  max-width: 350px;
+}
+
+/* Quick Add Button */
+.quick-add-btn {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-  z-index: 1;
-}
-
-.particle {
-  position: absolute;
-  background: var(--accent-primary);
-  border-radius: 50%;
-  opacity: 0.3;
-  animation: float 6s infinite ease-in-out;
-}
-
-/* Nuevo: Modo Tarjeta Grid/Lista */
-.view-toggle {
-  display: flex;
-  gap: 0.5rem;
-  margin-bottom: 1rem;
-}
-
-.view-btn {
-  background: transparent;
-  border: 1px solid var(--border-light);
-  color: var(--text-secondary);
-  border-radius: 8px;
-  padding: 0.5rem;
+  bottom: 1rem;
+  left: 50%;
+  transform: translateX(-50%) translateY(20px);
+  opacity: 0;
   transition: all 0.3s ease;
+  z-index: 2;
 }
 
-.view-btn.active,
-.view-btn:hover {
-  background: var(--accent-primary);
-  border-color: var(--accent-primary);
-  color: white;
+.card:hover .quick-add-btn {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
 }
 
-.products-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 1.5rem;
-}
-
-.products-list .card {
-  display: flex;
-  flex-direction: row;
-  height: auto;
-}
-
-.products-list .producto-imagen {
-  width: 200px;
-  height: 200px;
-  flex-shrink: 0;
-}
-
-/* Mejora para WebSockets */
+/* Stock Update Animation */
 .stock-update {
   animation: highlight 1s ease;
 }
 
 @keyframes highlight {
   0% {
-    background-color: rgba(16, 185, 129, 0.3);
+    background-color: rgba(0, 200, 83, 0.3);
   }
   100% {
     background-color: transparent;
