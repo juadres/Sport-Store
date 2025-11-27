@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Fragment Footer</title>
+</head>
+<body>
+    <!-- Footer Fragment -->
+    <footer class="footer" th:fragment="footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-4 mb-4 mb-lg-0">
+                    <div class="footer-brand">
+                        <i class="fas fa-dumbbell me-2"></i>SportStore 2025
+                    </div>
+                    <p class="text-muted mt-3">Tu destino para equipamiento deportivo de calidad profesional. Encuentra todo lo que necesitas para tu rendimiento máximo.</p>
+                    <div class="social-links mt-3">
+                        <a href="#" class="text-muted me-3"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" class="text-muted me-3"><i class="fab fa-twitter"></i></a>
+                        <a href="#" class="text-muted me-3"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-muted"><i class="fab fa-tiktok"></i></a>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+                    <h5 class="text-white mb-3">Categorías</h5>
+                    <ul class="list-unstyled">
+                        <li><a th:href="@{/tienda(categoria='uniformes')}" class="text-muted">Uniformes</a></li>
+                        <li><a th:href="@{/tienda(categoria='sudaderas')}" class="text-muted">Sudaderas</a></li>
+                        <li><a th:href="@{/tienda(categoria='calzado')}" class="text-muted">Calzado</a></li>
+                        <li><a th:href="@{/tienda(categoria='accesorios')}" class="text-muted">Accesorios</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-2 col-md-4 mb-4 mb-md-0">
+                    <h5 class="text-white mb-3">Ayuda</h5>
+                    <ul class="list-unstyled">
+                        <li><a href="#" class="text-muted">Contacto</a></li>
+                        <li><a href="#" class="text-muted">Envíos</a></li>
+                        <li><a href="#" class="text-muted">Devoluciones</a></li>
+                        <li><a href="#" class="text-muted">FAQ</a></li>
+                    </ul>
+                </div>
+                <div class="col-lg-4 col-md-4">
+                    <h5 class="text-white mb-3">Contacto</h5>
+                    <ul class="list-unstyled text-muted">
+                        <li class="mb-2">
+                            <i class="fas fa-map-marker-alt me-2"></i>
+                            Bogotá, Colombia
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-phone me-2"></i>
+                            +57 311 618 2363
+                        </li>
+                        <li class="mb-2">
+                            <i class="fas fa-envelope me-2"></i>
+                            info@sportstore.com
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <hr class="my-4 border-light">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <p class="text-muted mb-0">&copy; 2025 SportStore. Todos los derechos reservados.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a href="#" class="text-muted me-3">Términos de Servicio</a>
+                    <a href="#" class="text-muted">Política de Privacidad</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

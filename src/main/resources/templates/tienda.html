@@ -196,6 +196,157 @@
                 console.log('WebSocket not available', e);
             }
         })();
+
+                // Optimización de WebSockets para actualización más rápida
+        (function() {
+            let stompClient = null;
+            let reconnectTimeout = null;
+            const MAX_RECONNECT_ATTEMPTS = 5;
+            let reconnectAttempts = 0;
+
+            function connect() {
+                try {
+                    const socket = new SockJS('/ws');
+                    stompClient = Stomp.over(socket);
+                    
+                    stompClient.connect({}, function(frame) {
+                        console.log('Connected: ' + frame);
+                        reconnectAttempts = 0;
+                        
+                        stompClient.subscribe('/topic/stock', function(message) {
+                            const payload = JSON.parse(message.body);
+                            updateStockDisplay(payload);
+                        });
+                        
+                    }, function(error) {
+                        console.log('WebSocket connection error: ', error);
+                        handleDisconnect();
+                    });
+                    
+                } catch (e) {
+                    console.log('WebSocket not available', e);
+                    handleDisconnect();
+                }
+            }
+
+            function handleDisconnect() {
+                if (reconnectAttempts < MAX_RECONNECT_ATTEMPTS) {
+                    reconnectAttempts++;
+                    const timeout = Math.min(1000 * Math.pow(2, reconnectAttempts), 30000);
+                    console.log(`Attempting to reconnect in ${timeout}ms (attempt ${reconnectAttempts})`);
+                    
+                    reconnectTimeout = setTimeout(connect, timeout);
+                }
+            }
+
+            function updateStockDisplay(payload) {
+                const productId = payload.productoId;
+                const disponibles = payload.stock - payload.stockReservado;
+                
+                // Actualizar badge de stock con animación
+                const badge = document.getElementById('stock-' + productId);
+                if (badge) {
+                    badge.textContent = disponibles + ' disponibles';
+                    badge.classList.add('stock-update');
+                    setTimeout(() => badge.classList.remove('stock-update'), 1000);
+                }
+                
+                // Actualizar input max
+                const input = document.getElementById('input-' + productId);
+                if (input) {
+                    input.max = disponibles;
+                    if (parseInt(input.value) > disponibles) {
+                        input.value = disponibles;
+                    }
+                }
+                
+                // Mostrar notificación si el stock es bajo
+                if (disponibles <= 2) {
+                    showNotification(`Stock bajo para el producto ${productId}`, 'warning');
+                }
+            }
+
+            function showNotification(message, type = 'info') {
+                const notification = document.createElement('div');
+                notification.className = `notification alert-${type}`;
+                notification.innerHTML = `
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-${type === 'success' ? 'check' : type === 'warning' ? 'exclamation-triangle' : 'info'}-circle me-2"></i>
+                        <span>${message}</span>
+                    </div>
+                `;
+                
+                document.body.appendChild(notification);
+                
+                setTimeout(() => {
+                    notification.remove();
+                }, 5000);
+            }
+
+            // Header scroll effect
+            window.addEventListener('scroll', function() {
+                const header = document.querySelector('.header');
+                if (window.scrollY > 100) {
+                    header.classList.add('scrolled');
+                } else {
+                    header.classList.remove('scrolled');
+                }
+            });
+
+            // Inicializar conexión WebSocket
+            connect();
+
+            // Cleanup on page unload
+            window.addEventListener('beforeunload', function() {
+                if (stompClient !== null) {
+                    stompClient.disconnect();
+                }
+                if (reconnectTimeout) {
+                    clearTimeout(reconnectTimeout);
+                }
+            });
+
+        })();
+
+        // Quick add functionality
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('quick-add-btn')) {
+                e.preventDefault();
+                const productId = e.target.dataset.productId;
+                addToCart(productId, 1);
+            }
+        });
+
+        async function addToCart(productId, quantity) {
+            try {
+                const response = await fetch('/agregar-carrito', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                    },
+                    body: `productoId=${productId}&cantidad=${quantity}`
+                });
+                
+                if (response.ok) {
+                    showNotification('Producto agregado al carrito', 'success');
+                    updateCartBadge();
+                } else {
+                    showNotification('Error al agregar el producto', 'error');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                showNotification('Error de conexión', 'error');
+            }
+        }
+
+        function updateCartBadge() {
+            // Actualizar el badge del carrito
+            const badge = document.querySelector('.carrito-badge');
+            if (badge) {
+                const currentCount = parseInt(badge.textContent) || 0;
+                badge.textContent = currentCount + 1;
+            }
+        }
     </script>
 </body>
 </html>

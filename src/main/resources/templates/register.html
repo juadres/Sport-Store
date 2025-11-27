@@ -3,13 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registro - SportStore</title>
+    <title>Registro - SportStore 2025</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" th:href="@{/css/cyberpunk.css}" />
 </head>
 <body class="bg-dark">
-    <div class="container">
+    <!-- Header Unificado -->
+    <div th:replace="fragments/header :: header"></div>
+
+    <div class="container mt-5">
         <div class="row justify-content-center min-vh-100 align-items-center">
             <div class="col-md-8 col-lg-6">
                 <div class="card shadow-lg">
@@ -28,7 +31,7 @@
                                 <i class="fas fa-dumbbell fa-2x text-white"></i>
                             </div>
                             <h2 class="fw-bold">Crear Cuenta</h2>
-                            <p class="text-muted">Únete a SportStore y encuentra tu equipamiento ideal</p>
+                            <p class="text-muted">Únete a SportStore 2025 y encuentra tu equipamiento ideal</p>
                         </div>
 
                         <!-- Mensajes del servidor -->
@@ -40,6 +43,8 @@
 
                         <!-- Formulario de Registro (MANTIENE LA MISMA VALIDACIÓN) -->
                         <form th:action="@{/register}" method="post" id="registerForm" novalidate>
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                            
                             <!-- Campo Nombre y Apellido -->
                             <div class="mb-4">
                                 <label for="nombre" class="form-label fw-semibold">Nombre y Apellido *</label>
@@ -162,8 +167,12 @@
         </div>
     </div>
 
+    <!-- Footer Unificado -->
+    <div th:replace="fragments/footer :: footer"></div>
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
 
+    <!-- MANTENIENDO TODO EL JAVASCRIPT ORIGINAL DE VALIDACIONES -->
     <script>
         // Variables de estado de validación
         let isNombreValid = false;
@@ -381,120 +390,119 @@
         }
 
         // VALIDACIÓN DE EMAIL ACTUALIZADA PARA CUALQUIER GMAIL
-        // Validación del email solo para Gmail
-function validateEmail() {
-    const emailInput = document.getElementById('email');
-    const errorElement = document.getElementById('emailError');
-    const errorText = document.getElementById('emailErrorText');
-    const validElement = document.getElementById('emailValid');
-    const value = emailInput.value.trim();
+        function validateEmail() {
+            const emailInput = document.getElementById('email');
+            const errorElement = document.getElementById('emailError');
+            const errorText = document.getElementById('emailErrorText');
+            const validElement = document.getElementById('emailValid');
+            const value = emailInput.value.trim();
 
-    // Reset estados
-    emailInput.classList.remove('is-valid', 'is-invalid');
-    errorElement.style.display = 'none';
-    validElement.style.display = 'none';
+            // Reset estados
+            emailInput.classList.remove('is-valid', 'is-invalid');
+            errorElement.style.display = 'none';
+            validElement.style.display = 'none';
 
-    if (value === '') {
-        showError(emailInput, errorElement, errorText, 'El email es obligatorio');
-        isEmailValid = false;
-        updateSubmitButton();
-        return;
-    }
-
-    // 1. Solo @gmail.com
-    if (!value.endsWith('@gmail.com')) {
-        showError(emailInput, errorElement, errorText, 'Solo se aceptan cuentas de Gmail (@gmail.com)');
-        isEmailValid = false;
-        updateSubmitButton();
-        return;
-    }
-
-    const localPart = value.split('@')[0];
-    const localPartLower = localPart.toLowerCase();
-
-    // 2. Longitud antes del @
-    if (localPart.length < 3) {
-        showError(emailInput, errorElement, errorText, 'El email debe tener al menos 3 caracteres antes del @');
-        isEmailValid = false;
-        updateSubmitButton();
-        return;
-    }
-    if (localPart.length > 30) {
-        showError(emailInput, errorElement, errorText, 'El email debe tener máximo 30 caracteres antes del @');
-        isEmailValid = false;
-        updateSubmitButton();
-        return;
-    }
-
-    // 3. No doble punto
-    if (localPart.includes('..')) {
-        showError(emailInput, errorElement, errorText, 'No se permiten dos puntos seguidos');
-        isEmailValid = false;
-        updateSubmitButton();
-        return;
-    }
-
-    // 4. No mismo carácter más de 3 veces
-    const charCount = {};
-    for (let char of localPartLower) {
-        if (char !== '.') {
-            charCount[char] = (charCount[char] || 0) + 1;
-            if (charCount[char] > 3) {
-                showError(emailInput, errorElement, errorText, 'No se permite el mismo carácter más de 3 veces');
+            if (value === '') {
+                showError(emailInput, errorElement, errorText, 'El email es obligatorio');
                 isEmailValid = false;
                 updateSubmitButton();
                 return;
             }
+
+            // 1. Solo @gmail.com
+            if (!value.endsWith('@gmail.com')) {
+                showError(emailInput, errorElement, errorText, 'Solo se aceptan cuentas de Gmail (@gmail.com)');
+                isEmailValid = false;
+                updateSubmitButton();
+                return;
+            }
+
+            const localPart = value.split('@')[0];
+            const localPartLower = localPart.toLowerCase();
+
+            // 2. Longitud antes del @
+            if (localPart.length < 3) {
+                showError(emailInput, errorElement, errorText, 'El email debe tener al menos 3 caracteres antes del @');
+                isEmailValid = false;
+                updateSubmitButton();
+                return;
+            }
+            if (localPart.length > 30) {
+                showError(emailInput, errorElement, errorText, 'El email debe tener máximo 30 caracteres antes del @');
+                isEmailValid = false;
+                updateSubmitButton();
+                return;
+            }
+
+            // 3. No doble punto
+            if (localPart.includes('..')) {
+                showError(emailInput, errorElement, errorText, 'No se permiten dos puntos seguidos');
+                isEmailValid = false;
+                updateSubmitButton();
+                return;
+            }
+
+            // 4. No mismo carácter más de 3 veces
+            const charCount = {};
+            for (let char of localPartLower) {
+                if (char !== '.') {
+                    charCount[char] = (charCount[char] || 0) + 1;
+                    if (charCount[char] > 3) {
+                        showError(emailInput, errorElement, errorText, 'No se permite el mismo carácter más de 3 veces');
+                        isEmailValid = false;
+                        updateSubmitButton();
+                        return;
+                    }
+                }
+            }
+
+            // 5. Caracteres válidos en local part
+            if (!/^[a-zA-Z0-9.]+$/.test(localPart)) {
+                showError(emailInput, errorElement, errorText, 'Solo se permiten letras, números y puntos antes del @');
+                isEmailValid = false;
+                updateSubmitButton();
+                return;
+            }
+
+            // 6. No puede empezar o terminar con punto
+            if (localPart.startsWith('.') || localPart.endsWith('.')) {
+                showError(emailInput, errorElement, errorText, 'El email no puede empezar o terminar con punto');
+                isEmailValid = false;
+                updateSubmitButton();
+                return;
+            }
+
+            // 7. Validaciones para patrones sospechosos
+            if (/(.)\1{2,}/.test(localPartLower)) {
+                showError(emailInput, errorElement, errorText, 'El email contiene caracteres repetidos de forma inusual');
+                isEmailValid = false;
+                updateSubmitButton();
+                return;
+            }
+
+            const secuenciasTeclado = [
+                'qwerty', 'asdfgh', 'zxcvbn', 'poiuyt', 'lkjhgf', 'mnbvcx',
+                'qazwsx', 'edcrfv', 'tgbnhy', 'yhnujm', 'ikmloj', 'plmokn'
+            ];
+            if (secuenciasTeclado.some(seq => localPartLower.includes(seq))) {
+                showError(emailInput, errorElement, errorText, 'El email contiene secuencias de teclado no válidas');
+                isEmailValid = false;
+                updateSubmitButton();
+                return;
+            }
+
+            if (/(.{2,})(?:\1){2,}/.test(localPartLower)) {
+                showError(emailInput, errorElement, errorText, 'El email contiene patrones repetitivos no naturales');
+                isEmailValid = false;
+                updateSubmitButton();
+                return;
+            }
+
+            // Si pasa todas las validaciones
+            showValid(emailInput, validElement);
+            isEmailValid = true;
+            updateSubmitButton();
         }
-    }
-
-    // 5. Caracteres válidos en local part
-    if (!/^[a-zA-Z0-9.]+$/.test(localPart)) {
-        showError(emailInput, errorElement, errorText, 'Solo se permiten letras, números y puntos antes del @');
-        isEmailValid = false;
-        updateSubmitButton();
-        return;
-    }
-
-    // 6. No puede empezar o terminar con punto
-    if (localPart.startsWith('.') || localPart.endsWith('.')) {
-        showError(emailInput, errorElement, errorText, 'El email no puede empezar o terminar con punto');
-        isEmailValid = false;
-        updateSubmitButton();
-        return;
-    }
-
-    // 7. Validaciones para patrones sospechosos
-    if (/(.)\1{2,}/.test(localPartLower)) {
-        showError(emailInput, errorElement, errorText, 'El email contiene caracteres repetidos de forma inusual');
-        isEmailValid = false;
-        updateSubmitButton();
-        return;
-    }
-
-    const secuenciasTeclado = [
-        'qwerty', 'asdfgh', 'zxcvbn', 'poiuyt', 'lkjhgf', 'mnbvcx',
-        'qazwsx', 'edcrfv', 'tgbnhy', 'yhnujm', 'ikmloj', 'plmokn'
-    ];
-    if (secuenciasTeclado.some(seq => localPartLower.includes(seq))) {
-        showError(emailInput, errorElement, errorText, 'El email contiene secuencias de teclado no válidas');
-        isEmailValid = false;
-        updateSubmitButton();
-        return;
-    }
-
-    if (/(.{2,})(?:\1){2,}/.test(localPartLower)) {
-        showError(emailInput, errorElement, errorText, 'El email contiene patrones repetitivos no naturales');
-        isEmailValid = false;
-        updateSubmitButton();
-        return;
-    }
-
-    // Si pasa todas las validaciones
-    showValid(emailInput, validElement);
-    isEmailValid = true;
-    updateSubmitButton();
-}
 
         // Validación de contraseña con requisitos más estrictos
         function validatePassword() {
@@ -667,18 +675,22 @@ function validateEmail() {
                 strengthBar.classList.add('strength-weak');
                 strengthText.textContent = 'Débil';
                 strengthText.className = 'text-danger';
+                strengthBar.style.width = '25%';
             } else if (score <= 50) {
                 strengthBar.classList.add('strength-fair');
                 strengthText.textContent = 'Aceptable';
                 strengthText.className = 'text-warning';
+                strengthBar.style.width = '50%';
             } else if (score <= 75) {
                 strengthBar.classList.add('strength-good');
                 strengthText.textContent = 'Buena';
                 strengthText.className = 'text-info';
+                strengthBar.style.width = '75%';
             } else {
                 strengthBar.classList.add('strength-strong');
                 strengthText.textContent = 'Fuerte';
                 strengthText.className = 'text-success';
+                strengthBar.style.width = '100%';
             }
         }
 
