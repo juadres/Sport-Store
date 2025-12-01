@@ -82,4 +82,48 @@ public class Venta {
         detalle.setVenta(this);
         this.detalles.add(detalle);
     }
+// Campos para Stripe (se mantiene compatibilidad con pagos directos)
+    @Column(length = 20)
+    private String metodoPago = "directo";  // "directo" o "stripe"
+
+    @Column(length = 100)
+    private String stripeSessionId;
+
+    @Column(length = 100)
+    private String stripePaymentIntentId;
+
+    @Column(length = 20)
+    private String estadoPago = "completado";  // "pendiente", "completado", "fallido"
+
+    @Column(length = 10)
+    private String moneda = "COP";
+
+    // Getters y Setters para los nuevos campos
+    public String getMetodoPago() { 
+        return metodoPago != null ? metodoPago : "directo"; 
+    }
+    public void setMetodoPago(String metodoPago) { 
+        this.metodoPago = metodoPago; 
+    }
+
+    public String getStripeSessionId() { return stripeSessionId; }
+    public void setStripeSessionId(String stripeSessionId) { 
+        this.stripeSessionId = stripeSessionId; 
+    }
+
+    public String getStripePaymentIntentId() { return stripePaymentIntentId; }
+    public void setStripePaymentIntentId(String stripePaymentIntentId) { 
+        this.stripePaymentIntentId = stripePaymentIntentId; 
+    }
+
+    public String getEstadoPago() { 
+        return estadoPago != null ? estadoPago : "completado"; 
+    }
+    public void setEstadoPago(String estadoPago) { 
+        this.estadoPago = estadoPago; 
+    }
+
+    public String getMoneda() { return moneda; }
+    public void setMoneda(String moneda) { this.moneda = moneda; }
+
 }

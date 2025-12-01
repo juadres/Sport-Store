@@ -4,6 +4,7 @@ import com.ecommerce.tiendaspring.models.CarritoItemDTO;
 import com.ecommerce.tiendaspring.models.Producto;
 import com.ecommerce.tiendaspring.services.ProductoService;
 import com.ecommerce.tiendaspring.services.CarritoService;
+import com.ecommerce.tiendaspring.services.ExternalAPIService;
 import com.ecommerce.tiendaspring.services.StockService;
 import com.ecommerce.tiendaspring.services.UsuarioService;
 
@@ -15,8 +16,10 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import jakarta.servlet.http.HttpSession;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.Map;
 import java.util.List;
 
 import com.ecommerce.tiendaspring.models.Usuario;
@@ -47,6 +50,9 @@ public class TiendaController {
 
     @Autowired
     private StockService stockService;
+
+    @Autowired
+    private ExternalAPIService externalAPIService;
 
     // ================= Inicializar carrito =================
     @ModelAttribute("carrito")
@@ -109,8 +115,6 @@ public class TiendaController {
             Producto producto = productoService.obtenerProductoPorId(productoId)
                     .orElseThrow(() -> new RuntimeException("Producto no encontrado"));
 
-            // No reservamos stock en BD al agregar al carrito. Hacemos una validación local
-            // para evitar que el mismo usuario agregue más de lo que hay en `stock`.
             CarritoItemDTO itemExistente = carrito.stream()
                     .filter(i -> i.getProducto().getId().equals(productoId))
                     .findFirst()
@@ -119,13 +123,11 @@ public class TiendaController {
             if (itemExistente != null) {
                 int cantidadAnterior = itemExistente.getCantidad();
                 int nuevaCantidadTotal = cantidadAnterior + cantidad;
-                // intentar actualizar reserva (atomico)
                 if (!stockService.actualizarReserva(productoId, cantidadAnterior, nuevaCantidadTotal)) {
                     model.addAttribute("error", "No hay suficiente stock. Solo quedan " + producto.getStockDisponible() + " unidades.");
                     return "redirect:/tienda?categoria=" + categoria;
                 }
                 itemExistente.setCantidad(nuevaCantidadTotal);
-                // actualizar referencia de producto con estado actual
                 itemExistente.setProducto(producto);
             } else {
                 if (!stockService.reservarStock(productoId, cantidad)) {
@@ -135,7 +137,6 @@ public class TiendaController {
                 carrito.add(new CarritoItemDTO(producto, cantidad));
             }
 
-            // Guardar carrito en BD si usuario está autenticado
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             if (auth != null && auth.isAuthenticated() && !"anonymousUser".equals(auth.getName())) {
                 carritoService.guardarCarritoUsuario(auth.getName(), carrito);
@@ -151,15 +152,34 @@ public class TiendaController {
     }
 
     // ================= Ver carrito =================
-    @GetMapping("/carrito")
-    public String verCarrito(@ModelAttribute("carrito") List<CarritoItemDTO> carrito, Model model) {
-        model.addAttribute("total", carrito.stream()
-                .map(CarritoItemDTO::getSubtotal)
-                .reduce(java.math.BigDecimal.ZERO, java.math.BigDecimal::add));
-
-        return "carrito";
+@GetMapping("/carrito")
+public String verCarrito(@ModelAttribute("carrito") List<CarritoItemDTO> carrito, 
+                         Model model,
+                         HttpServletResponse response) {
+    
+    try {
+        // Asegurar que response no esté comprometida
+        if (!response.isCommitted()) {
+            BigDecimal total = carrito.stream()
+                    .map(CarritoItemDTO::getSubtotal)
+                    .reduce(java.math.BigDecimal.ZERO, BigDecimal::add);
+            
+            // Obtener conversiones de moneda
+            Map<String, String> currencyConversions = externalAPIService.getCurrencyConversions(total);
+            model.addAttribute("currencyConversions", currencyConversions);
+            
+            model.addAttribute("total", total);
+            return "carrito";
+        }
+    } catch (Exception e) {
+        e.printStackTrace();
+        // NO redirigir si response ya está comprometida
+        if (!response.isCommitted()) {
+            return "redirect:/tienda";
+        }
     }
-
+    return null; // Si response está comprometida, dejar que termine
+}
     // ================= Actualizar carrito =================
     @PostMapping("/actualizar-carrito")
     public String actualizarCarrito(@RequestParam Long productoId,
@@ -171,15 +191,12 @@ public class TiendaController {
             while (it.hasNext()) {
                 CarritoItemDTO item = it.next();
                 if (item.getProducto().getId().equals(productoId)) {
-                    //int cantidadAnterior = item.getCantidad();
                     if (cantidad <= 0) {
-                        // liberar reserva y remover
                         int cantidadAnterior = item.getCantidad();
                         stockService.liberarStock(productoId, cantidadAnterior);
                         it.remove();
                         model.addAttribute("success", "Producto eliminado");
                     } else {
-                        // actualizar reserva de forma atomica
                         int cantidadAnterior = item.getCantidad();
                         if (!stockService.actualizarReserva(productoId, cantidadAnterior, cantidad)) {
                             model.addAttribute("error", "No hay suficiente stock para actualizar cantidad");
@@ -213,7 +230,6 @@ public class TiendaController {
         while (it.hasNext()) {
             CarritoItemDTO item = it.next();
             if (item.getProducto().getId().equals(productoId)) {
-                // liberar reserva antes de remover
                 stockService.liberarStock(productoId, item.getCantidad());
                 it.remove();
                 break;

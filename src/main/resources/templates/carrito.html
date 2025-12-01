@@ -8,124 +8,308 @@
     <link rel="stylesheet" th:href="@{/css/cyberpunk.css}" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
-<body>
+<body class="bg-dark">
     <!-- Header Unificado -->
-    <div th:replace="fragments/header :: header"></div>
+    <div th:replace="~{fragments/header :: header}"></div>
 
-    <div class="container mt-4">
-        <h1 class="mb-4">
-            <i class="fas fa-shopping-cart me-2"></i>Carrito de Compras
-        </h1>
+    <div class="container py-5 mt-4">
+        <!-- Título Principal -->
+        <div class="page-header mb-5">
+            <h1 class="page-title mb-3">
+                <i class="fas fa-shopping-cart me-3"></i>Carrito de Compras
+            </h1>
+            <p class="page-subtitle text-muted">Revisa y gestiona tus productos antes de pagar</p>
+        </div>
 
-        <!-- Mensajes -->
-        <div th:if="${success}" class="alert alert-success alert-dismissible fade show">
-            <i class="fas fa-check-circle"></i>
+        <!-- Mensajes del Sistema -->
+        <div th:if="${success}" class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle me-2"></i>
             <span th:text="${success}"></span>
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
-        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show">
-            <i class="fas fa-exclamation-triangle"></i>
+        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-triangle me-2"></i>
             <span th:text="${error}"></span>
             <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
         </div>
 
-        <!-- Carrito vacío -->
-        <div th:if="${#lists.isEmpty(carrito)}" class="text-center py-5">
-            <i class="fas fa-shopping-cart fa-3x text-muted mb-3"></i>
-            <h3 class="text-muted">Tu carrito está vacío</h3>
-            <p class="text-muted">¡Agrega algunos productos deportivos para continuar!</p>
-            <a th:href="@{/tienda}" class="btn btn-primary btn-lg">
-                <i class="fas fa-shopping-bag me-2"></i> Ir de Compras
-            </a>
-        </div>
-
-        <!-- Carrito con productos -->
-        <div th:unless="${#lists.isEmpty(carrito)}" class="row">
-            <div class="col-lg-8">
-                <div class="card">
-                    <div class="card-body">
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th>Producto</th>
-                                    <th>Precio</th>
-                                    <th>Cantidad</th>
-                                    <th>Subtotal</th>
-                                    <th>Acciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr th:each="item : ${carrito}">
-                                    <td>
-                                        <div class="d-flex align-items-center">
-                                            <img th:src="${item.producto.imagen}" th:alt="${item.producto.nombre}" 
-                                                 class="rounded me-3" style="width: 60px; height: 60px; object-fit: cover;">
-                                            <div>
-                                                <h6 th:text="${item.producto.nombre}" class="mb-1"></h6>
-                                                <small class="text-muted" th:text="${item.producto.categoria}"></small>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td th:text="'$' + ${#numbers.formatDecimal(item.producto.precio, 1, 2, 'COMMA')}"></td>
-                                    <td>
-                                        <form th:action="@{/actualizar-carrito}" method="post" class="d-flex align-items-center">
-                                            <input type="hidden" name="productoId" th:value="${item.producto.id}">
-                                            <input type="number" name="cantidad" th:value="${item.cantidad}" min="1" 
-                                                   class="form-control" style="width: 80px;">
-                                            <button type="submit" class="btn btn-sm btn-outline-primary ms-2">
-                                                <i class="fas fa-sync-alt"></i>
-                                            </button>
-                                        </form>
-                                    </td>
-                                    <td th:text="'$' + ${#numbers.formatDecimal(item.subtotal, 1, 2, 'COMMA')}"></td>
-                                    <td>
-                                        <form th:action="@{/eliminar-carrito}" method="post">
-                                            <input type="hidden" name="productoId" th:value="${item.producto.id}">
-                                            <button type="submit" class="btn btn-sm btn-outline-danger">
-                                                <i class="fas fa-trash"></i>
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-
-                <div class="mt-3">
-                    <a th:href="@{/vaciar-carrito}" class="btn btn-outline-danger">
-                        <i class="fas fa-trash me-2"></i> Vaciar Carrito
+        <!-- Carrito Vacío -->
+        <div th:if="${#lists.isEmpty(carrito)}" class="empty-state">
+            <div class="card empty-card">
+                <div class="card-body text-center py-5">
+                    <i class="fas fa-shopping-cart empty-icon mb-4"></i>
+                    <h3 class="empty-title">Tu carrito está vacío</h3>
+                    <p class="empty-text mb-4">¡Agrega algunos productos deportivos para comenzar!</p>
+                    <a th:href="@{/tienda}" class="btn btn-primary btn-lg empty-btn">
+                        <i class="fas fa-shopping-bag me-2"></i> Explorar Productos
                     </a>
                 </div>
             </div>
+        </div>
 
-            <div class="col-lg-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">
-                            <i class="fas fa-receipt me-2"></i>Resumen del Pedido
-                        </h5>
-                        <div class="d-flex justify-content-between mb-2">
-                            <span>Subtotal:</span>
-                            <span th:text="'$' + ${#numbers.formatDecimal(total, 1, 2, 'COMMA')}"></span>
+        <!-- Carrito con Productos -->
+        <div th:unless="${#lists.isEmpty(carrito)}">
+            <div class="row">
+                <!-- Sección de Productos -->
+                <div class="col-lg-8 mb-4">
+                    <div class="card">
+                        <div class="card-header bg-dark border-light">
+                            <h5 class="card-title mb-0">
+                                <i class="fas fa-list me-2"></i>Productos en tu carrito
+                                <span class="badge bg-primary ms-2" th:text="${carrito.size()}"></span>
+                            </h5>
                         </div>
-                        <div class="d-flex justify-content-between mb-2">
-                            <span>Envío:</span>
-                            <span class="text-success">Gratis</span>
+                        
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-dark table-hover align-middle mb-0">
+                                    <thead>
+                                        <tr class="border-light">
+                                            <th class="ps-4" style="width: 50%;">Producto</th>
+                                            <th class="text-center" style="width: 15%;">Precio Unitario</th>
+                                            <th class="text-center" style="width: 15%;">Cantidad</th>
+                                            <th class="text-center" style="width: 15%;">Subtotal</th>
+                                            <th class="text-center pe-4" style="width: 5%;"></th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr th:each="item : ${carrito}" class="border-light">
+                                            <!-- Columna Producto -->
+                                            <td class="ps-4">
+                                                <div class="d-flex align-items-center">
+                                                    <div class="producto-miniatura me-3">
+                                                        <img th:src="${item.producto.imagen}" 
+                                                             th:alt="${item.producto.nombre}"
+                                                             class="rounded"
+                                                             style="width: 60px; height: 60px; object-fit: cover;">
+                                                    </div>
+                                                    <div>
+                                                        <h6 class="mb-1" th:text="${item.producto.nombre}"></h6>
+                                                        <div class="d-flex align-items-center">
+                                                            <span class="badge bg-secondary me-2" 
+                                                                  th:text="${item.producto.categoria}"></span>
+                                                            <span th:if="${item.producto.stockDisponible <= 5}" 
+                                                                  class="badge bg-warning text-dark">
+                                                                <i class="fas fa-exclamation-triangle me-1"></i>
+                                                                <span th:text="${item.producto.stockDisponible} + ' disponibles'"></span>
+                                                            </span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            
+                                            <!-- Columna Precio -->
+                                            <td class="text-center">
+                                                <span class="fw-semibold text-warning">
+                                                    <span th:text="'$' + ${#numbers.formatDecimal(item.producto.precio, 1, 2)}"></span>
+                                                </span>
+                                            </td>
+                                            
+                                            <!-- Columna Cantidad -->
+                                            <td class="text-center">
+                                                <form th:action="@{/actualizar-carrito}" method="post" class="d-flex justify-content-center align-items-center">
+                                                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                                                    <input type="hidden" name="productoId" th:value="${item.producto.id}">
+                                                    <div class="input-group input-group-sm" style="width: 120px;">
+                                                        <button class="btn btn-outline-secondary" type="button" onclick="decrementarCantidad(this)">
+                                                            <i class="fas fa-minus"></i>
+                                                        </button>
+                                                        <input type="number" name="cantidad" th:value="${item.cantidad}" min="1" 
+                                                               th:attr="max=${item.producto.stockDisponible}"
+                                                               class="form-control text-center cantidad-input"
+                                                               onchange="this.form.submit()">
+                                                        <button class="btn btn-outline-secondary" type="button" onclick="incrementarCantidad(this)">
+                                                            <i class="fas fa-plus"></i>
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </td>
+                                            
+                                            <!-- Columna Subtotal -->
+                                            <td class="text-center">
+                                                <span class="fw-bold text-success">
+                                                    <span th:text="'$' + ${#numbers.formatDecimal(item.subtotal, 1, 2)}"></span>
+                                                </span>
+                                            </td>
+                                            
+                                            <!-- Columna Eliminar -->
+                                            <td class="text-center pe-4">
+                                                <form th:action="@{/eliminar-carrito}" method="post" class="d-inline">
+                                                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                                                    <input type="hidden" name="productoId" th:value="${item.producto.id}">
+                                                    <button type="submit" class="btn btn-sm btn-outline-danger" 
+                                                            title="Eliminar producto">
+                                                        <i class="fas fa-trash"></i>
+                                                    </button>
+                                                </form>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            
+                            <!-- Botón Vaciar Carrito -->
+                            <div class="mt-4">
+                                <form th:action="@{/vaciar-carrito}" method="get">
+                                    <button type="submit" class="btn btn-outline-danger btn-sm">
+                                        <i class="fas fa-trash me-2"></i> Vaciar Todo el Carrito
+                                    </button>
+                                </form>
+                            </div>
                         </div>
-                        <hr>
-                        <div class="d-flex justify-content-between mb-3">
-                            <strong>Total:</strong>
-                            <strong class="h5 text-warning" 
-                                    th:text="'$' + ${#numbers.formatDecimal(total, 1, 2, 'COMMA')}"></strong>
-                        </div>
+                    </div>
+                </div>
 
-                        <form th:action="@{/procesar-venta}" method="post">
-                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                            <button type="submit" class="btn btn-success w-100 btn-lg">
-                                <i class="fas fa-credit-card me-2"></i> Proceder al Pago
-                            </button>
-                        </form>
+                <!-- Sección de Resumen y Pago -->
+                <div class="col-lg-4">
+                    <!-- Resumen de Compra -->
+                    <div class="card mb-4">
+                        <div class="card-header bg-dark border-light">
+                            <h5 class="card-title mb-0">
+                                <i class="fas fa-receipt me-2"></i>Resumen de la Compra
+                            </h5>
+                        </div>
+                        
+                        <div class="card-body">
+                            <!-- Detalles del Resumen -->
+                            <div class="resumen-detalles">
+                                <!-- Subtotal -->
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <span class="text-muted">Subtotal:</span>
+                                    <span class="fw-semibold" 
+                                          th:text="'$' + ${#numbers.formatDecimal(total, 1, 2)}"></span>
+                                </div>
+                                
+                                <!-- IVA -->
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <span class="text-muted">IVA (19%):</span>
+                                    <span class="fw-semibold" 
+                                          th:text="'$' + ${#numbers.formatDecimal(total * 0.19, 1, 2)}"></span>
+                                </div>
+                                
+                                <!-- Envío -->
+                                <div class="d-flex justify-content-between align-items-center mb-3">
+                                    <span class="text-muted">Envío:</span>
+                                    <span class="text-success fw-semibold">
+                                        <i class="fas fa-check-circle me-1"></i> Gratis
+                                    </span>
+                                </div>
+                                
+                                <!-- Línea Divisoria -->
+                                <hr class="border-light my-3">
+                                
+                                <!-- Total -->
+                                <div class="d-flex justify-content-between align-items-center mb-4">
+                                    <span class="h5 mb-0">Total a Pagar:</span>
+                                    <span class="h4 text-warning fw-bold" 
+                                          th:text="'$' + ${#numbers.formatDecimal(total * 1.19, 1, 2)}"></span>
+                                </div>
+                                
+                                <!-- Conversión de Monedas (Organizado) -->
+                                <div th:if="${currencyConversions}" class="currency-conversion mb-4">
+                                    <div class="card border-secondary">
+                                        <div class="card-body py-2">
+                                            <small class="text-muted d-block mb-2">
+                                                <i class="fas fa-exchange-alt me-1"></i> Equivalente en otras monedas:
+                                            </small>
+                                            <div class="row g-2">
+                                                <div th:each="conv : ${currencyConversions}" th:if="${conv.key != 'COP'}" class="col-6">
+                                                    <div class="d-flex justify-content-between">
+                                                        <small class="text-muted" th:text="${conv.key}"></small>
+                                                        <small class="fw-semibold" th:text="${conv.value}"></small>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Botón de Pago Directo -->
+                            <div class="mb-4">
+                                <form th:action="@{/procesar-venta}" method="post">
+                                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                                    <button type="submit" class="btn btn-success btn-lg w-100 py-3">
+                                        <i class="fas fa-credit-card me-2"></i> Proceder al Pago Directo
+                                    </button>
+                                </form>
+                                <small class="text-muted d-block text-center mt-2">
+                                    <i class="fas fa-info-circle me-1"></i> Pago procesado directamente en el sitio
+                                </small>
+                            </div>
+                            
+                            <!-- Opción Stripe (Mejor Organizada) -->
+                            <div class="stripe-option">
+                                <div class="card border-primary">
+                                    <div class="card-body p-3">
+                                        <div class="d-flex align-items-center mb-3">
+                                            <div class="me-3">
+                                                <i class="fab fa-stripe fa-2x text-primary"></i>
+                                            </div>
+                                            <div>
+                                                <h6 class="card-title mb-1">¿Prefieres pagar con tarjeta?</h6>
+                                                <p class="text-muted mb-0 small">
+                                                    Pago 100% seguro procesado por Stripe
+                                                </p>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row g-2">
+                                            <!-- Tarjetas Aceptadas -->
+                                            <div class="col-12 mb-3">
+                                                <div class="text-center">
+                                                    <small class="text-muted d-block mb-1">Aceptamos:</small>
+                                                    <div class="d-flex justify-content-center gap-3">
+                                                        <span class="text-muted"><i class="fab fa-cc-visa fa-lg"></i></span>
+                                                        <span class="text-muted"><i class="fab fa-cc-mastercard fa-lg"></i></span>
+                                                        <span class="text-muted"><i class="fab fa-cc-amex fa-lg"></i></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            
+                                            <!-- Botón Stripe -->
+                                            <div class="col-12">
+                                                <form th:action="@{/stripe/pago-stripe}" method="post">
+                                                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                                                    <button type="submit" class="btn btn-primary w-100">
+                                                        <i class="fas fa-credit-card me-2"></i> Pagar con Tarjeta (Stripe)
+                                                    </button>
+                                                </form>
+                                            </div>
+                                            
+                                            <!-- Ventajas -->
+                                            <div class="col-12">
+                                                <div class="mt-3">
+                                                    <small class="text-success d-block mb-1">
+                                                        <i class="fas fa-bolt me-1"></i> Ventajas:
+                                                    </small>
+                                                    <ul class="small text-muted mb-0 ps-3">
+                                                        <li>Sin salir del sitio</li>
+                                                        <li>Pago instantáneo</li>
+                                                        <li>Recibo digital incluido</li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Seguridad -->
+                            <div class="mt-4 text-center">
+                                <small class="text-muted">
+                                    <i class="fas fa-shield-alt me-1"></i> 
+                                    Tus pagos están protegidos con encriptación SSL
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Volver a Tienda -->
+                    <div class="text-center">
+                        <a th:href="@{/tienda}" class="btn btn-outline-light btn-sm">
+                            <i class="fas fa-arrow-left me-2"></i> Continuar Comprando
+                        </a>
                     </div>
                 </div>
             </div>
@@ -133,8 +317,52 @@
     </div>
 
     <!-- Footer Unificado -->
-    <div th:replace="fragments/footer :: footer"></div>
+    <div th:replace="~{fragments/footer :: footer}"></div>
 
+    <!-- Scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Scripts para manejo de cantidades -->
+    <script>
+        // Funciones para incrementar/decrementar cantidades
+        function incrementarCantidad(button) {
+            const input = button.parentNode.querySelector('.cantidad-input');
+            const max = parseInt(input.getAttribute('max')) || 999;
+            let value = parseInt(input.value) || 1;
+            if (value < max) {
+                input.value = value + 1;
+                input.dispatchEvent(new Event('change'));
+            }
+        }
+        
+        function decrementarCantidad(button) {
+            const input = button.parentNode.querySelector('.cantidad-input');
+            const min = parseInt(input.getAttribute('min')) || 1;
+            let value = parseInt(input.value) || 1;
+            if (value > min) {
+                input.value = value - 1;
+                input.dispatchEvent(new Event('change'));
+            }
+        }
+        
+        // Formatear números automáticamente
+        document.addEventListener('DOMContentLoaded', function() {
+            // Formatear inputs de cantidad
+            const cantidadInputs = document.querySelectorAll('.cantidad-input');
+            cantidadInputs.forEach(input => {
+                input.addEventListener('blur', function() {
+                    const value = parseInt(this.value);
+                    const min = parseInt(this.getAttribute('min')) || 1;
+                    const max = parseInt(this.getAttribute('max')) || 999;
+                    
+                    if (isNaN(value) || value < min) {
+                        this.value = min;
+                    } else if (value > max) {
+                        this.value = max;
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>

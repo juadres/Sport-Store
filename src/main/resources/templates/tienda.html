@@ -1,138 +1,210 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tienda - SportStore</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <link rel="stylesheet" th:href="@{/css/cyberpunk.css}" />
-</head>
-<body>
-    <!-- Header Unificado -->
-    <div th:replace="fragments/header :: header"></div>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Tienda - SportStore</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        <link rel="stylesheet" th:href="@{/css/cyberpunk.css}" />
+    </head>
+    <body>
+        <!-- Header Unificado -->
+        <div th:replace="~{fragments/header :: header}"></div>
 
-    <!-- Banner de Categoría -->
-    <div class="category-banner" th:if="${categoriaSeleccionada != 'todos'}">
-        <div class="container py-4">
-            <h3 class="text-white mb-0">
-                <span th:switch="${categoriaSeleccionada}">
-                    <span th:case="uniformes">👕 Uniformes Deportivos</span>
-                    <span th:case="sudaderas">🧥 Sudaderas y Jackets</span>
-                    <span th:case="calzado">👟 Calzado Deportivo</span>
-                    <span th:case="accesorios">⚽ Accesorios Deportivos</span>
-                </span>
-            </h3>
-            <p class="text-white-50 mb-0">Productos seleccionados especialmente para ti</p>
-        </div>
-    </div>
-
-    <!-- Contenido Principal -->
-    <div class="container mt-4">
-        <!-- Filtros de Categoría -->
-        <div class="row mb-4">
-            <div class="col-12">
-                <div class="filter-section">
-                    <h5 class="mb-3">Filtrar por Categoría:</h5>
-                    <ul class="nav nav-pills justify-content-center">
-                        <li class="nav-item">
-                            <a class="nav-link filter-btn" th:classappend="${categoriaSeleccionada == 'todos'} ? 'active'" 
-                               th:href="@{/tienda}">🏠 Todos</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link filter-btn" th:classappend="${categoriaSeleccionada == 'uniformes'} ? 'active'" 
-                               th:href="@{/tienda(categoria='uniformes')}">👕 Uniformes</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link filter-btn" th:classappend="${categoriaSeleccionada == 'sudaderas'} ? 'active'" 
-                               th:href="@{/tienda(categoria='sudaderas')}">🧥 Sudaderas</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link filter-btn" th:classappend="${categoriaSeleccionada == 'calzado'} ? 'active'" 
-                               th:href="@{/tienda(categoria='calzado')}">👟 Calzado</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link filter-btn" th:classappend="${categoriaSeleccionada == 'accesorios'} ? 'active'" 
-                               th:href="@{/tienda(categoria='accesorios')}">⚽ Accesorios</a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-        <!-- Mensajes -->
-        <div th:if="${success}" class="alert alert-success alert-dismissible fade show">
-            <i class="fas fa-check-circle"></i> 
-            <span th:text="${success}"></span>
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-        
-        <div th:if="${error}" class="alert alert-danger alert-dismissible fade show">
-            <i class="fas fa-exclamation-triangle"></i> 
-            <span th:text="${error}"></span>
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-
-        <!-- Productos -->
-        <div class="row">
-            <div th:each="producto : ${productos}" class="col-lg-3 col-md-4 col-sm-6 mb-4">
-                <div class="card h-100 text-white">
-                    <div class="producto-imagen position-relative">
-                        <img th:src="${producto.imagen}" th:alt="${producto.nombre}" 
-                             style="width: 100%; height: 100%; object-fit: cover;">
-                        <div class="producto-badges">
-                            <span class="badge bg-warning text-dark" th:if="${producto.stockDisponible <= 5}">
-                                <i class="fas fa-bolt"></i> Últimas unidades
-                            </span>
-                        </div>
-                        <button class="quick-add-btn btn btn-primary btn-sm" 
-                                th:attr="data-product-id=${producto.id}">
-                            <i class="fas fa-cart-plus"></i> Agregar
-                        </button>
-                    </div>
-                    <div class="card-body">
-                        <h5 class="card-title" th:text="${producto.nombre}"></h5>
-                        <p class="card-text text-muted small" th:text="${producto.descripcion}"></p>
-                        <div class="d-flex justify-content-between align-items-center mb-3">
-                            <span class="h5 text-warning fw-bold" 
-                                  th:text="'$' + ${#numbers.formatDecimal(producto.precio, 1, 2, 'COMMA')}"></span>
-                            <span id="stock-" th:attr="id=${'stock-' + producto.id}" 
-                                  class="badge badge-stock" 
-                                  th:text="${producto.stockDisponible} + ' disponibles'"></span>
-                        </div>
-                        <form th:action="@{/agregar-carrito}" method="post">
-                            <input type="hidden" name="productoId" th:value="${producto.id}">
-                            <input type="hidden" name="categoria" th:value="${categoriaSeleccionada}">
-                            <div class="input-group mb-2">
-                                <input type="number" class="form-control" name="cantidad" value="1" min="1"
-                                       th:attr="max=${producto.stockDisponible}, data-product-id=${producto.id}, id=${'input-' + producto.id}" />
+        <!-- Hero Section -->
+        <section class="hero-section">
+            <div class="container">
+                <div class="row align-items-center">
+                    <div class="col-lg-6">
+                        <h1 class="hero-title">
+                            <span class="text-cyber">TECNOLOGÍA</span><br>
+                            <span class="text-neon">DEPORTIVA</span><br>
+                            <span class="text-gradient">DEL FUTURO</span>
+                        </h1>
+                        <p class="hero-subtitle">
+                            Equipamiento de alta performance diseñado para atletas que buscan superar sus límites. 
+                            Innovación y calidad en cada producto.
+                        </p>
+                        <div class="hero-stats d-flex gap-4">
+                            <div class="stat-item">
+                                <div class="stat-number text-cyber">500+</div>
+                                <div class="stat-label">Productos</div>
                             </div>
-                            <button type="submit" class="btn btn-primary w-100">
-                                <i class="fas fa-cart-plus me-2"></i> Agregar al Carrito
-                            </button>
-                        </form>
+                            <div class="stat-item">
+                                <div class="stat-number text-neon">10K+</div>
+                                <div class="stat-label">Clientes</div>
+                            </div>
+                            <div class="stat-item">
+                                <div class="stat-number text-gradient">99%</div>
+                                <div class="stat-label">Satisfacción</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <div class="hero-visual">
+                            <div class="floating-card card">
+                                <div class="card-body text-center p-4">
+                                    <i class="fas fa-shipping-fast fa-2x text-cyber mb-2"></i>
+                                    <h6 class="mb-1">Envío Gratis</h6>
+                                    <p class="small mb-0">¡En todas tus compras!</p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+        </section>
+
+        <!-- Banner de Categoría -->
+        <div class="category-banner" th:if="${categoriaSeleccionada != 'todos'}">
+            <div class="container py-4">
+                <h3 class="text-white mb-0">
+                    <span th:switch="${categoriaSeleccionada}">
+                        <span th:case="uniformes">👕 Uniformes Deportivos</span>
+                        <span th:case="sudaderas">🧥 Sudaderas y Jackets</span>
+                        <span th:case="calzado">👟 Calzado Deportivo</span>
+                        <span th:case="accesorios">⚽ Accesorios Deportivos</span>
+                    </span>
+                </h3>
+                <p class="text-white-50 mb-0">Productos seleccionados especialmente para ti</p>
+            </div>
         </div>
 
-        <!-- Mensaje si no hay productos -->
-        <div th:if="${#lists.isEmpty(productos)}" class="text-center py-5">
-            <i class="fas fa-box-open fa-3x text-muted mb-3"></i>
-            <h3 class="text-muted">No hay productos disponibles</h3>
-            <p class="text-muted">Intenta con otra categoría o vuelve más tarde.</p>
-            <a th:href="@{/tienda}" class="btn btn-primary mt-3">
-                <i class="fas fa-redo me-2"></i> Ver Todos los Productos
-            </a>
+        <!-- Contenido Principal -->
+        <div class="container mt-4">
+            <!-- Filtros de Categoría Mejorados -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="filter-section filter-pills">
+                        <h5 class="mb-3">Filtrar por Categoría:</h5>
+                        <ul class="nav nav-pills justify-content-center">
+                            <li class="nav-item">
+                                <a class="nav-link" th:classappend="${categoriaSeleccionada == 'todos'} ? 'active'" 
+                                th:href="@{/tienda}">🏠 Todos</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:classappend="${categoriaSeleccionada == 'uniformes'} ? 'active'" 
+                                th:href="@{/tienda(categoria='uniformes')}">👕 Uniformes</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:classappend="${categoriaSeleccionada == 'sudaderas'} ? 'active'" 
+                                th:href="@{/tienda(categoria='sudaderas')}">🧥 Sudaderas</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:classappend="${categoriaSeleccionada == 'calzado'} ? 'active'" 
+                                th:href="@{/tienda(categoria='calzado')}">👟 Calzado</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" th:classappend="${categoriaSeleccionada == 'accesorios'} ? 'active'" 
+                                th:href="@{/tienda(categoria='accesorios')}">⚽ Accesorios</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mensajes -->
+            <div th:if="${success}" class="alert alert-success alert-dismissible fade show">
+                <i class="fas fa-check-circle"></i> 
+                <span th:text="${success}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            
+            <div th:if="${error}" class="alert alert-danger alert-dismissible fade show">
+                <i class="fas fa-exclamation-triangle"></i> 
+                <span th:text="${error}"></span>
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+
+            <!-- Recomendación del Clima -->
+            <div th:if="${weatherRecommendation}" class="alert alert-info mb-4">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-cloud-sun me-3 fa-lg"></i>
+                    <div>
+                        <strong class="d-block">Recomendación del Día</strong>
+                        <span th:text="${weatherRecommendation}"></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Productos Mejorados -->
+            <div class="row">
+                <div th:each="producto : ${productos}" class="col-lg-3 col-md-4 col-sm-6 mb-4">
+                    <div class="product-card card h-100">
+                        <div class="product-image-container">
+                            <img th:src="${producto.imagen}" th:alt="${producto.nombre}" class="product-image">
+                            
+                            <div class="product-badges">
+                                <span class="badge bg-warning text-dark" th:if="${producto.stockDisponible <= 5}">
+                                    <i class="fas fa-bolt"></i> Últimas unidades
+                                </span>
+                                <span class="badge bg-success" th:if="${producto.stockDisponible > 20}">
+                                    <i class="fas fa-check"></i> En stock
+                                </span>
+                            </div>
+                            
+                            <div class="overlay">
+                                <button class="quick-view-btn btn">
+                                    <i class="fas fa-eye me-2"></i> Vista Rápida
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="card-body">
+                            <h6 class="card-title fw-bold" th:text="${producto.nombre}"></h6>
+                            <p class="card-text text-muted small mb-3" th:text="${producto.descripcion}"></p>
+                            
+                            <div class="d-flex justify-content-between align-items-center mb-3">
+                                <span class="price-tag" 
+                                    th:text="'$' + ${#numbers.formatDecimal(producto.precio, 1, 2, 'POINT')}"></span>
+                                <span class="badge badge-stock" 
+                                    th:text="${producto.stockDisponible} + ' disp'"></span>
+                            </div>
+                            
+                            <form th:action="@{/agregar-carrito}" method="post" class="product-actions">
+                                <input type="hidden" name="productoId" th:value="${producto.id}">
+                                <input type="hidden" name="categoria" th:value="${categoriaSeleccionada}">
+                                
+                                <div class="input-group mb-2">
+                                    <span class="input-group-text">
+                                        <i class="fas fa-cubes"></i>
+                                    </span>
+                                    <input type="number" class="form-control" 
+                                        name="cantidad" value="1" min="1"
+                                        th:attr="max=${producto.stockDisponible}">
+                                </div>
+                                
+                                <button type="submit" class="btn btn-cyber w-100">
+                                    <i class="fas fa-cart-plus me-2"></i> Agregar al Carrito
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mensaje si no hay productos -->
+            <div th:if="${#lists.isEmpty(productos)}" class="empty-state text-center py-5">
+                <i class="fas fa-box-open fa-3x mb-3"></i>
+                <h3 class="text-muted">No hay productos disponibles</h3>
+                <p class="text-muted">Intenta con otra categoría o vuelve más tarde.</p>
+                <a th:href="@{/tienda}" class="btn btn-cyber mt-3">
+                    <i class="fas fa-redo me-2"></i> Ver Todos los Productos
+                </a>
+            </div>
         </div>
-    </div>
 
-    <!-- Footer Unificado -->
-    <div th:replace="fragments/footer :: footer"></div>
+        <!-- Footer Unificado -->
+        <div th:replace="~{fragments/footer :: footer}"></div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+        <!-- Scripts (mantener igual) -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sockjs-client@1/dist/sockjs.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/stompjs@2.3.3/lib/stomp.min.js"></script>
+        <!-- Mantener todo el JavaScript existente -->
+    </body>
+</html>
     <script>
         (function() {
             try {

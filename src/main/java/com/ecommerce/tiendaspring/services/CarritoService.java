@@ -113,4 +113,65 @@ public class CarritoService {
             }
         }
     }
+
+    // ================= NUEVO: Limpiar carrito de usuario =================
+    public void limpiarCarritoUsuario(String email) {
+        System.out.println("=== Limpiando carrito para usuario: " + email + " ===");
+        
+        Optional<Usuario> usuarioOpt = usuarioService.obtenerUsuarioPorEmail(email);
+        if (usuarioOpt.isPresent()) {
+            Usuario usuario = usuarioOpt.get();
+            
+            // 1. Obtener el carrito actual
+            Carrito carrito = obtenerCarritoUsuario(usuario);
+            
+            System.out.println("Carrito encontrado con " + carrito.getItems().size() + " items");
+            
+            // 2. Liberar stock reservado para cada item
+            for (CarritoItem item : carrito.getItems()) {
+                try {
+                    System.out.println("Liberando stock: Producto " + item.getProducto().getId() + 
+                                     ", Cantidad: " + item.getCantidad());
+                    stockService.liberarStock(item.getProducto().getId(), item.getCantidad());
+                } catch (Exception e) {
+                    System.out.println("Error liberando stock para producto " + 
+                                     item.getProducto().getId() + ": " + e.getMessage());
+                }
+            }
+            
+            // 3. Eliminar todos los items del carrito
+            int itemsEliminados = carrito.getItems().size();
+            carrito.getItems().clear();
+            
+            // 4. Eliminar de la base de datos
+            carritoItemRepository.deleteByCarritoId(carrito.getId());
+            
+            // 5. Guardar carrito vacío
+            carritoRepository.save(carrito);
+            
+            System.out.println("Carrito limpiado exitosamente. " + itemsEliminados + " items eliminados.");
+            
+        } else {
+            System.out.println("Usuario no encontrado: " + email);
+        }
+    }
+
+    // ================= NUEVO: Vaciar carrito temporal (para sesión) =================
+    public void vaciarCarritoSesion(String email, List<CarritoItemDTO> carritoSesion) {
+        System.out.println("=== Vaciar carrito de sesión para: " + email + " ===");
+        
+        if (carritoSesion != null && !carritoSesion.isEmpty()) {
+            // 1. Liberar stock de los items en sesión
+            for (CarritoItemDTO item : carritoSesion) {
+                try {
+                    stockService.liberarStock(item.getProducto().getId(), item.getCantidad());
+                } catch (Exception e) {
+                    System.out.println("Error liberando stock de sesión: " + e.getMessage());
+                }
+            }
+            
+            // 2. También limpiar carrito en BD
+            limpiarCarritoUsuario(email);
+        }
+    }
 }

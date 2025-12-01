@@ -64,4 +64,26 @@ public class VentaService {
     public List<DetalleVenta> obtenerDetallesVenta(Long ventaId) {
         return detalleVentaRepository.findByVentaId(ventaId);
     }
+    
+    // ================= NUEVO: Método para Stripe - Procesar venta con PaymentIntent =================
+    public Venta procesarVentaStripe(Usuario usuario, List<CarritoItemDTO> carritoItems, 
+                                    String stripePaymentIntentId) {
+        System.out.println("Procesando venta Stripe para usuario: " + usuario.getEmail());
+        
+        // Usar el método existente para crear la venta
+        Venta venta = procesarVenta(usuario, carritoItems);
+        
+        // Marcar como pagado con Stripe
+        venta.setMetodoPago("stripe");
+        venta.setStripePaymentIntentId(stripePaymentIntentId);
+        venta.setEstadoPago("completado");
+        
+        // Guardar cambios
+        ventaRepository.save(venta);
+        
+        System.out.println("Venta Stripe procesada: " + venta.getNumeroFactura() + 
+                          " - PaymentIntent: " + stripePaymentIntentId);
+        
+        return venta;
+    }
 }
